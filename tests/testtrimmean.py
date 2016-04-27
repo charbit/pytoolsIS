@@ -6,8 +6,10 @@ Created on Wed Apr  6 13:58:01 2016
 """
 
 import glob
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolcalibration')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 
 from numpy import nanmean,nanmedian, dot, array, nan, isnan

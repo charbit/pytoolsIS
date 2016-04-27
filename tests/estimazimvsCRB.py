@@ -18,13 +18,11 @@ class struct:
 
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from geoloc import extractstationlocations
 
-from toolIS import *
-from geoloc import extractstationlocations
 
 from toolIS import maxfstat, synthetizer
 from toolIS import evalCRBwithgaussianLOC, CRBonazimuthonlywithoutLOC
@@ -79,9 +77,9 @@ el0_deg                = 70.0
 c0_mps                 = 340.0
 dur0_sec               = 30.0;
 flag_LOC               = 0;
-Lruns                  = 500;
+Lruns                  = 100;
 
-azgridscannumber       = 50;
+azgridscannumber       = 150;
 
 if flag_LOC ==1:
     std_aec = struct(a_deg = 5, e_deg = 3, c_mps = 13)

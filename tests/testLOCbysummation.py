@@ -11,10 +11,10 @@ Created on Mon Feb 15 18:26:22 2016
 @author: maurice
 """
 
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolbenchmark')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolboxIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from toolboxInfrasonic import MCCM, consistence
 from geoloc import extractstationlocations

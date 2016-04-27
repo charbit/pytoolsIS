@@ -10,7 +10,8 @@ Created on Mon Apr  4 21:25:57 2016
 #
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolcalibration')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from invcumulMSC import *
 from numpy import linspace, zeros, array, ones, arange

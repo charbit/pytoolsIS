@@ -7,11 +7,11 @@ This is a temporary script file.
 # test of the function asymFalpha,
 # asymptotic distribution of the Falphascore
 
-import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolbenchmark')
+
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolboxIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from toolbenchmarking import *
 from scipy import random

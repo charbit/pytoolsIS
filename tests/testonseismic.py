@@ -1,8 +1,10 @@
 # attention the signal vectors and its Fourier transforms
 # are ROW vetors.
 
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolseismic')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 import estimdirections
 from estimdirections import matrixtrihedron, extract1direction, extract1directionSCP

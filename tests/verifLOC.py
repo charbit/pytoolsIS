@@ -5,8 +5,8 @@ Created on Wed Feb 17 08:25:20 2016
 @author: maurice
 """
 import sys
-sys.path.append('/Users/maurice/etudes/InfrasonCEA/statsofFstatH0H1/loilimitunderH0/progspy/IStoolbox/')
-
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from toolboxInfrasonic import logMSCtheoGaussian, estimSCP
 from toolboxInfrasonic import generateISwithLOCgaussian

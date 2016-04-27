@@ -8,10 +8,10 @@ Created on Wed Apr 13 18:28:09 2016
 class struct:
      def __init__(self, **kwds):
          self.__dict__.update(kwds)
-         
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
 
 from geoloc import extractstationlocations
 
