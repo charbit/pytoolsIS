@@ -1,0 +1,904 @@
+%============================= author.tex ============================
+%
+% sample root file for your "contribution" to a contributed volume
+%
+% Use this file as a template for your own input.
+%
+%=============================Springer =============================
+% RECOMMENDED
+\documentclass[graybox]{svmult/styles/svmult}
+\nonstopmode
+
+% choose options for [] as required from the list
+% in the Reference Guide
+\usepackage{trackchanges}
+\usepackage{mathptmx}       % selects Times Roman as basic font
+\usepackage{helvet}         % selects Helvetica as sans-serif font
+\usepackage{courier}        % selects Courier as typewriter font
+\usepackage{type1cm}        % activate if the above 3 fonts are
+                            % not available on your system
+%
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+\usepackage{verbatim, fancyhdr,
+            theorem, dsfont, color,
+            amsmath, amsfonts, amssymb,
+            hyperref,
+            epsfig, graphicx}
+%\usepackage[latin1]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+%============================================
+\def\glrt{\mathrm{GLRT}}
+\def\bun{\mathds{1}}
+\def\hat{\widehat}
+\def\mccm{\mathrm{MCCM}}
+\def\msc{\mathrm{MSC}}
+\def\ci{\mathrm{CI}}
+\def\bR{\mathbf{R}}
+\def\degree{^{\circ}}
+\def\degree{\ensuremath{^\circ}}
+\def\cV{{\mathcal{V}}}
+\def\cU{{\mathcal{U}}}
+\def\cW{{\mathcal{W}}}
+\def\cF{{\mathcal{F}}}
+\def\cZ{{\mathcal{Z}}}
+\def\cW{{\mathcal{W}}}
+\def\tU{{\widetilde U}}
+\def\tW{{\widetilde W}}
+\def\linspace{\mathcal{U}}
+\def\fim{\mathrm{FIM}}
+\def\mps{\mathrm{\,m/s}}
+\def\nbsamples{10000}
+\def\simiid{\stackrel{\mathrm{i.i.d.}}{\sim}}
+
+%============================================
+\newcommand{\diag}[1]{\mathrm{diag}\left[ #1 \right]}
+\newcommand{\esp}[1]{\mathds{E}\left[ #1 \right]}
+\newcommand{\prob}[1]{\mathds{P}\left[ #1 \right]}
+\newcommand{\trace}[1]{\mathrm{trace}\left[ #1 \right]}
+\newcommand{\cov}[1]{\mathrm{cov}\left[ #1 \right]}
+\newcommand{\real}[1]{\mathrm{\,Real}\left[ #1 \right]}
+\newcommand{\figscale}[4]{
+\begin{figure}[hbtp]
+\centerline{
+    \hbox{ \psfig{figure={#1}, scale=#4} }
+}
+\begin{center}
+\parbox{12 cm}
+{
+    \caption{\protect\small\it  {#2}}
+    \label {#3}
+}
+\end{center}
+\end{figure}}
+
+%===============================================
+%===============================================
+\makeindex     % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+\addeditor{Alexis}
+
+\begin{document}
+ \sloppy
+\title*{Contribution Title}
+% Use \titlerunning{Short Title} for an abbreviated version of
+% your contribution title if the original one is too long
+\author{Name of First Author and Name of Second Author}
+% Use \authorrunning{Short Title} for an abbreviated version of
+% your contribution title if the original one is too long
+\institute{Name of First Author \at Name, Address of Institute, \email{name@email.address}
+\and Name of Second Author \at Name, Address of Institute \email{name@email.address}}
+%
+% Use the package "url.sty" to avoid
+% problems with special characters
+% used in your e-mail or web address
+%
+\maketitle
+
+%============================================
+\bibliographystyle{plain}
+{\color{red} Bibliography must be completed }
+\bibliography{allbib}
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\def\thesection{\arabic{section}}
+
+%============================================
+%============================================
+%\chapter*{Contribution Title} 
+
+
+%============================================
+%============================================
+\section{Introduction} 
+For two decades the infrasound technology is successfully used by the CTBTO for monitoring nuclear tests.
+Several contributions in this book \cite{alexis2009} explain how infrasonic sources are able to propagate over very long distances, all over the World, and how they can be observed with a sensor which consists of a barometer associated to a noise reduction system. Using a few sensors located within a range of 1 to 2 km, we can estimate the direction of arrivals (DOA) of the source and then, intercepting at least two DOAs, derive the location of the source. In this context, the set of sensors is called a station. For the nuclear test monitoring the CTBTO has deployed a network of 60 stations all over the World in such a way at least two stations are able to detect any explosion of at least 1 kilotone anywhere on the Earth.
+
+ 
+The full monitoring system provides a bulletin which consists of a list of events with times of arrivals, durations, geolocations and some other features. This bulletin is based on several station bulletins. 
+
+For nuclear test purposes, the infrasonic signals are  in the frequency bandwidth  between $0.02$ Hz and $4$ Hz. The use of filter bank and time windowing allows to potentially separate multiple signals in the time-frequency (TF) domain. In a given TF cell, the  process  performs a function of test of the ``noise-only'' hypothesis. If the hypothesis is rejected, saying a waveform of interest (WOI) is present, features are estimated. 
+
+This paper focuses on the problem of  detection and estimation in a TF cell, and is not concerned by the details of the time-frequency discretization and by the clustering process. 
+ 
+{\color{red}The first section is devoted to theoretical aspects: model of signal, useful statistical notions. $\ldots$}
+ 
+%============================================
+ A large literature was devoted to infrasound processing. Without trying to be exhaustive, let us cite:
+ \begin{description}
+ \item[Detection issues:]
+ several algorithms exist based on consistency \cite{cansi1995}, \cite{runco:2014}, also known as PMCC for Progressive Multi- Channel Correlation,  Hough transform \cite{brown_automatic_2008},  mean of cross-correlation maxima (MCCM) \cite{wilson:2005bis}, \cite{mccmolson2013}, adaptive Fisher statistic \cite{arrowsmith2009}, \cite{shumway2006}, LTA/STA \cite{bungum1971}, sum of the squares of variance ratio \cite{lee2010}, GLRT \cite{shumway:2001}, \cite{charbit_egu:2013}. In the following we only consider the consistency and the MCCM tests.
+
+ \item[Estimation issues:]
+the final estimation is the geolocation of the sources. For that, the commonly used procedure consists on the estimation of the direction of arrivals (DOA) of the infrasonic wave on at least two stations, then intercept the different DOAs to derive the geolocation. In this paper we are only concern with the DOA estimation. Basically two approaches are commonly considered: in the first we optimize directly an evolution function, as e.g. the likelihood function, w.r.t. the DOA, in the second we estimate at first the time delays on the sensors, typically by cross-correlation, and then derive using the sensor locations the DOA.
+
+
+ \end{description}
+  
+%============================================
+%============================================
+%============================================
+  \section{Theoretical aspect}
+%============================================
+%============================================
+  \subsection{Model of signal}
+ The source of interest, located faraway from the station, propagates a planar wave whose the slowness vector is denoted $\theta$.  The associated WOI, denoted $s(t)$, is observed by the sensor $m$ with a propagation delay $\tau_{m}$ and writes in the presence of additive noise:
+\begin{eqnarray}
+ \label{eq:continuous-time-model}
+ x_{m}(t)&=&s(t-\tau_{m})+w_{m}(t)
+\end{eqnarray}
+In expression \eqref{eq:continuous-time-model},  what distinguishes the WOI and the noise $w_{m}(t)$ is that the WOI components $s(t-\tau_{m})$ are spatially coherent at the sensor levels, but that is not the case for the noise components. In more general cases, a coherent nuisance signal can also be present. Typical examples are the microbarom phenomena,  the noise produced by a gas flare, by an airplane. This situation is  not considered in the following.  Indeed in many cases, it is assumed that the different coherent sources are located in different frequency bands and therefore can be separated by filtering, that leading back to  the expression \eqref{eq:continuous-time-model}. 
+
+
+More specifically the following assumptions are considered in this article:
+\begin{itemize}
+\item
+the $M$-ary vector 
+$w(t)=\begin{bmatrix}
+w_{1}(t)&\ldots&w_{M}(t)\end{bmatrix}^{T}$ is a wide sense stationary process spatially and temporally white i.e., for any $m,m',t,t'$, $\esp{w_{m}(t)w_{m'}(t')}=\sigma^{2}\delta(t-t')\delta_{m-m'}$. It follows that the spectral matrix of the noise writes, for any frequency $f$, $\Gamma_{w}(f)=\sigma^{2}I_{M}$. We also assume if necessary that $w(t)$ is Gaussian.
+\item
+the propagation delay\footnote{More specifically the delay $\tau_{m}=r_{m}^{T}\theta+T_{0}$ where $T_{0}$ is an unidentifiable parameter which can be included without loss of generality in the unknown signal $s(t)$.}  $\tau_{m}=r_{m}^{T}\theta$ where $r_{m}$ denotes the 3D location of the sensor $m$  in an arbitrary orthonormal  coordinate system.  In our context $\theta$ is considered as the main parameter of interest (POI).
+
+In practical applications the vector $\theta$ is often re-parametrized in terms of azimuth $a\in(0,2\pi)$, inclination angle $e\in(-\pi/2,\pi/2)$ and velocity $c\in\mathds{R}^{+}$ by the one-to-one mapping:
+\begin{eqnarray}
+ \label{eq:aec}
+ \begin{array}{ccc}
+ T:\,
+  \left\{
+  \begin{array}{rcl}
+ \theta_{1}&=&-c^{-1} \sin(a)\cos(e)\\
+ \theta_{2}&=&-c^{-1} \cos(a)\cos(e)\\
+ \theta_{3}&=&c^{-1} \sin(e)
+ \end{array}
+ \right.
+&
+\Leftrightarrow
+&
+  \left\{
+  \begin{array}{rcl}
+a&=&\arg (-\theta_{2}-j\theta_{1})\\
+c&=&(\theta_{1}^2+\theta_{2}^2+\theta_{3}^2)^{-1/2}\\
+e&=&\arg \sin(c\theta_{3})
+ \end{array}
+ \right.
+ \end{array}
+\end{eqnarray}
+\item
+the WOI $s(t)$ is an unknown broadband signal. There are two kinds of approaches, depending on whether the WOI is assumed to be deterministic or random. In the random case, the sensor signals related to the WOI can be fully or only partially coherent.
+
+
+Using the well-known $\delta$-method \cite{casella2002statistical} and the expression \eqref{eq:aec}, we can derive the approximate useful relationship between the covariances of $\theta$ and $\nu=(a,e,c)$ that writes:
+\begin{eqnarray}
+\label{eq:covthetacovnu}
+\cov{\nu}&=&\partial_{\theta} T \, \cov{\theta}\partial_{\theta}^{T} T
+\end{eqnarray}
+where the Jacobian $\partial_{\theta} T=\partial T_{\nu}^{-1}$ with
+\begin{eqnarray*}
+\partial_{\nu} T
+%&=&
+%\begin{bmatrix}
+%\partial_{a}\theta_{1}&\partial_{e}\theta_{1}&\partial_{c}\theta_{1}
+%\\
+%\partial_{a}\theta_{2}&\partial_{e}\theta_{2}&\partial_{c}\theta_{2}
+%\\
+%\partial_{a}\theta_{3}&\partial_{e}\theta_{3}&\partial_{e}\theta_{3}
+%\end{bmatrix}
+%\\
+&=&\begin{bmatrix}
+-c^{-1}\cos(a)\cos(e)&c^{-1}\sin(a)\sin(e)&c^{-2}\sin(a)\cos(e)
+\\
+c^{-1}\sin(a)\cos(e)&c^{-1}\cos(a)\sin(e)&c^{-2}\cos(a)\cos(e)
+\\
+0&c^{-1}\cos(e)&-c^{-2}\sin(e)
+\end{bmatrix}
+\end{eqnarray*}
+
+
+\end{itemize}
+
+\annote[stephen]{It is worth to notice that the main origin of the noise $w(t)$ is the wind.}{I think we might state that under this definition infrasound signals from continuous sources (e.g., microbaroms) are signals and not noise. We might term such signals 'clutter', but we will address this later.} The assumption that $w(t)$ is spatially white is verified providing that the size of the turbulence is small compared to the distances between sensors. That could be in default if the frequency is under $0.02$ Hz or when the wind velocity is over $2$ m/s. But these extreme values are never met in practical conditions of measurement.
+
+
+
+%============================================
+%============================================
+  \subsection{Discrete time model of signal}
+  The sampling frequency $F_{s}=1/T_{s}$ is chosen in accordance with the sampling theorem, assuming that the WOI $s(t)$ has a frequency bandwidth equal to $F_{s}/2$. We denote $x_{n,m}=x_{m}(nT_{s})$ the samples associated with the \annote[stephen]{signal $x(t)$}{I think it is confusing to refer to $x$ as the signal as earlier you define it as signal plus other terms - perhaps we can call it the waveform?}.  Starting from \eqref{eq:continuous-time-model} we can write:
+ \begin{eqnarray}
+ \label{eq:discrete-time-model}
+ x_{n,m}&=&s(nT_{s}-\tau_{m}(\theta))+w_{n,m},\quad \mathrm{for}\quad n=0\ldots N-1
+ \end{eqnarray}
+where $\tau_{m}(\theta)=r_{m}^{T}\theta\in\mathds{R}$. We denote $s=\begin{bmatrix} s(0)&\ldots&  s((N-1)T_{s}) \end{bmatrix}^{T}$ and  $s_{n}(\theta,s)=\begin{bmatrix} s(nT_{s}-\tau_{1}(\theta))&\ldots&  s(nT_{s}-\tau_{M}(\theta)) \end{bmatrix}^{T}$.  It is worth to notice that, according the sampling theorem, $s_{n}(\theta,s)$ can be performed from any sequence $s$ and for any  slowness vector  $\theta$. 
+
+The statistical inferences, considered in the following, are (i) test of the absence of the WOI, (ii) estimation of the POI.
+
+%============================================
+\subsubsection{Hypothesis testing}
+
+By definition an hypothesis in a non-empty subset of the parameter set.  In the following the hypothesis in test is associated to the absence of the WOI.
+
+In a very general case, a test of the hypothesis $H_{0}$ is  characterized by a function of the observation, which we denote $S(X)$, and a number $\eta$, such that if $S(X)>\eta$ the hypothesis $H_{0}$ is rejected. The test associated to $S(X)$ is said to be at the significance level $\alpha\in(0,1)$ iff 
+ \begin{eqnarray}
+    \label{eq:test-niveau}
+    \max_{\theta\in H_{0}}  \mathds{P}_{\theta}(S(X)>\eta)= \alpha
+\end{eqnarray}
+It is worth to notice that the significance level represents the probability of $H_{1}$ being accepted when $H_{0}$ is true. For this reason the significance level is also known as the false alarm probability. For a given value of $\alpha$, the threshold $\eta$ can be performed  providing that the probability distribution of $S(X)$ when $\theta$ is in $H_{0}$ is perfectly known.
+
+%============================================
+\subsubsection{Parameter estimation}
+A estimator is any function of the observations. Let us denote $\hat\mu$ an estimator of $\mu$.  $\hat\mu$  is said unbiased if $\esp{\hat\mu}=\mu$. The minimum square error (MSE) of $\mu$ is defined by the matrix $\esp{(\hat\mu-\mu)(\hat\mu-\mu)^{T}}$. The Cramer-Rao bound (CRB) provides a fundamental lower bound of the MSE. When an estimator reaches the CRB, it is said efficient.
+
+
+%============================================
+%============================================
+\subsection{Likelihood}
+Assuming gaussianity, the likelihood function can be performed in both  deterministic and stochastic cases.
+It is well-known that efficient statistical inference can be derived from the likelihood function. For example under very general regularity conditions \cite{?}, the maximum of the likelihood function provides an asymptotically unbiased and efficient estimator 
+
+In sensor array context, it is common to consider both deterministic and stochastic models. In the deterministic model, the WOI is considered as an unknown parameter, whereas in the stochastic model the WOI is considered as a stationary random process, depending on a small fixed number of parameters as for example one parameter if the WOI is assumed to be temporally white. The main difference between the both models is that the number of estimated parameters in the deterministic model increases with increasing sample size, whereas the number of parameters in the stochastic model remains fixed. It follows that the stochastic model can lead to greater efficiency.
+
+
+%============================================
+ \subsubsection{Deterministic model}
+ In the deterministic approach, the shape of the WOI $s=\begin{bmatrix} s(0)&\ldots&  s((N-1)T_{s}) \end{bmatrix}^{T}$  is assumed to be deterministic but unknown. Therefore the statistical distribution associated to the model \eqref{eq:discrete-time-model} is a sequence of $N$ independent Gaussian $M$-ary vectors with means $s_{n}(\theta,s)$ and covariance matrix $\sigma^{2}I_{M}$. That writes:
+ \begin{eqnarray}
+\label{eq:determinsitic-time-model}
+x_{0},\ldots,x_{N-1} \simiid \mathcal{N}(s_{n}(\theta,s),\sigma^{2}I_{M})
+\end{eqnarray}
+Therefore the POI writes:
+ \begin{eqnarray}
+  \label{eq:poideterministic}
+  \mu=(\theta,\sigma^{2},s)\in\mathcal{M}=\mathds{R}^{3}\times \mathds{R}^{+}\times \mathds{R}^{N}
+\end{eqnarray} 
+In this context the hypothesis of absence of WOI writes:
+ \begin{eqnarray}
+ \label{eq:H0}
+ H_{0}=\{\mu \,\,\mathrm{s.t.}\,\,\mathds{R}^{3}\times \mathds{R}^{+}\times \{s=0\}\} 
+ \end{eqnarray}
+
+
+Let us denote  $x_{n}=\begin{bmatrix}x_{n,1}&\ldots&x_{n,M}\end{bmatrix}^{T}$ the observed $M$-ary signal. The $N$ observed  $M$-ary signals $x_{n}$ are independent, gaussian, with respective mean $s_{n}(\theta)$ and same variance $\sigma^{2}$.
+Therefore the log-likelihood function writes:
+ \begin{eqnarray}
+ \label{eq:loglikelihood-determinstic}
+ \ell(\mu)&=&-\frac{N}{2}\log 2\pi-\frac{NM}{2}\log\sigma^{2}
+ -
+ \frac{1}{2\sigma^{2}}\sum_{n=0}^{N-1}(x_{n}-s_{n}(\theta))^{T}(x_{n}-s_{n}(\theta))
+ \end{eqnarray}
+
+%============================================
+  \subsubsection{Stochastic model}
+ In the stochastic approach, $s$ is assumed to be a wide sense stationary zero-mean gaussian process, statistically independent of the noise. We denote $\gamma(f)$ the spectral density of $s_{n}$. It follows that $x_{n}$ is a Gaussian process with zero-mean and spectral density $\Gamma(f)$. In the simple case where the WOI is a delayed version of the same wave, $\Gamma(f)= \gamma(f)G(f)G^{H}(f)+\sigma^{2}I_{M}$ where 
+  \begin{eqnarray*}
+  G(f,\theta)	&=&\begin{bmatrix}
+  e^{-2j\pi fr^{T}_{1}\theta}&\ldots&e^{-2j\pi fr^{T}_{M}\theta}
+  \end{bmatrix}^{T}
+  \end{eqnarray*}
+ The discrete Fourier transform (DFT) is defined by:
+  \begin{eqnarray*}
+  X_{k}&=&\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}x_{n}^{-2j\pi f_{k}n},\quad \text{with}\,\, f_{k}=k/N
+  \end{eqnarray*}
+Let us notice that $X_{0}$ is real valued. Assuming without loss of generality that $N$ is even, $X_{N/2}$ is also real valued. Moreover for $k=1,\ldots, N/2-1$, $X_{k}=X_{N-k}^{*}$.
+
+It is shown \cite{clt-peligrad2009} that, for large values of $N$, $X_{1},\ldots,X_{K-1}$, where $K=N/2$, is a sequence of $K-1$ independent complex circular Gaussian $M$-ary vectors,  with zero-mean and covariance $\Gamma_{k}= \Gamma(k/N)$.  That writes:
+\begin{eqnarray}
+\label{eq:stochastic-frequency-model}
+X_{1},\ldots,X_{K-1} \simiid \mathcal{N}(0,\Gamma_{k})
+\end{eqnarray}
+
+In the case where the WOI is a delayed version of the same wave, we have 
+\begin{eqnarray}
+ \label{eq:spectralmatrix-coherent}
+\Gamma_{k}(\theta)&=&\gamma_{k} G_{k}(\theta)G^{H}_{k}(\theta)+\sigma^{2}I_{M}
+\end{eqnarray}
+where $G_{k}(\theta)=G(f_{k}F_{s},\theta)$ and $\gamma_{k}=\gamma(f_{k}F_{s})\geq 0$. We let $\gamma=\begin{bmatrix} \gamma_{1}&\ldots& \gamma_{K} \end{bmatrix}^{T}$.  Therefore, omitting the real values associated to $k=0$ and $k=N/2$, the log-likelihood function writes:
+ \begin{eqnarray}
+ \label{eq:loglikelihood-stochastic}
+ \ell(\mu)&=&-K\log \pi-\sum_{k=1}^{K-1}\log \det \Gamma_{k}(\theta)
+ -
+\sum_{k=1}^{K-1}X_{k}^{H}\Gamma_{k}^{-1}(\theta)X_{k}
+ \end{eqnarray}
+ where
+\begin{eqnarray}
+  \label{eq:poistochastic}
+  \mu=(\theta,\sigma^{2},\gamma)\in\mathcal{M}=\mathds{R}^{3}\times \mathds{R}^{+}\times \mathds{R}^{K-1}
+\end{eqnarray}
+ 
+As it is said above the main interest of the stochastic model is in the fact that you can assume that the spectral density of the WOI is characterized by a small number of parameters. For example if w assume that the WOI is temporally white, $\gamma(f_{k}F_{s})=\eta\in \mathds{R}^{+}$. In more general cases, the spectral density sequence $\gamma(f_{k})$, depending on a sub-parameter $\zeta$ of size $S$, belongs to a manifold of dimension $S$. Therefore the statistical model associated at the model \eqref{eq:discrete-time-model},  depends on the parameter $\mu=(\theta,\sigma^{2},\zeta)\in\mathcal{M}=\mathds{R}^{3}\times \mathds{R}^{+}\times \mathds{R}^{S}$.
+
+The hypothesis of absence of WOI writes:
+ \begin{eqnarray}
+ \label{eq:H0}
+ H_{0}=\{\mu \,\,\mathrm{s.t.}\,\mathds{R}^{3}\times \mathds{R}^{+}\times\,\{\gamma=0\}\} 
+ \end{eqnarray}
+
+Thanks that $\Gamma_{k}$ is the sum of a rank $1$ matrix $\gamma_{k}G_{k}(\theta)G_{k}^{H}(\theta)$ and  the identity, the determinant and the inverse have simple analytical closed form expressions.
+
+The expression \eqref{eq:spectralmatrix-coherent} represents the spatially coherent case. It is characterized by a rank 1 spectral matrix for the WOI. 
+
+In the case of  loss of coherence (LOC) with gaussian distribution, the WOI spectral matrix is no more of rank 1 and leads to the spectral matrix of the observation: 
+ \begin{eqnarray}
+ \label{eq:spectralmatrix-LOC}
+ \Gamma_{k}&=&\gamma_{k}D_{k}(\theta)\,C_{k}\,D^{H}_{k}(\theta)+\sigma^{2}I_{M}
+ \end{eqnarray}
+where $D_{k}(\theta)=\diag{G_{k}(\theta)}$ and where the coherence matrix $C_{k}$ is a positive matrix whose  log-entries are
+\begin{eqnarray}
+ \label{eq:spectralmatrix-LOC}
+ \log C_{m,m',k}&=&-2\pi^2f^2(r_{m}-r_{m'})^TS_{\theta}(r_{m}-r_{m'})
+\end{eqnarray}
+The expression \eqref{eq:spectralmatrix-LOC} is derived assuming that the slowness vector is random \cite{nouvellet_itwb:2013}. More specifically the slowness vector writes:
+\begin{eqnarray*}
+\Theta &=& \theta+\epsilon
+\end{eqnarray*}
+where $\theta$ is a 3D deterministic vector and $\epsilon$ a 3D gaussian vector with zero-mean and covariance matrix $S_{\theta}$. That leads to the spectral matrix entry associated to the $(m,m')$ sensor pair:
+\begin{eqnarray*}
+S_{m,m',k} &=& \int_{\mathds{R}^3}e^{-2j\pi f_{k} (r_{m}-r_{m'})^{T}t} \,\, p_{\epsilon}(t)
+%\frac{e^{-\frac{1}{2}(t-\theta)^{T}S_{\theta}^{-1}(t-\theta)}}{(2\pi)^{-3/2} \sqrt{\det S_{\theta}}}
+dt
+\end{eqnarray*}
+where $p_{\epsilon}(t)$ is the probability density of the 3D gaussian vector $\epsilon$. 
+This integral can be interpreted as the summation of several plane waves arriving from multiple propagation paths, whose the slowness vector is distributed around $\theta$. Easy calculation leads to:
+\begin{eqnarray}
+\label{eq:Smmk}
+S_{m,m',k}
+%&=&\nonumber
+%e^{-2j\pi f_{k} (r_{m}-r_{m'})^T\theta}
+%\int_{\mathds{R}^3}e^{-2j\pi f_{k} (r_{m}-r_{m'})^Tt}p_{\epsilon}(t)dt
+%\\
+&=&
+e^{-2j\pi f_{k} (r_{m}-r_{m'})^T\theta}\times
+e^{-2\pi^2f_{k}^2 (r_{m}-r_{m'})^TS_{\theta}(r_{m}-r_{m'})}
+\end{eqnarray}
+Let us remain that
+the magnitude square coherence (MSC) is defined, at the frequency $f_{k}$ for the  $(m,m')$ sensor pair by:
+\begin{eqnarray*}
+ \msc_{m,m',k}&=& \left |
+ C_{m,m',k}
+ \right |^{2}
+\end{eqnarray*}
+Carrying into \eqref{eq:Smmk} gives:
+\begin{eqnarray}
+\label{eq:log-coherence}
+ \log \msc_{m,m',k}&=& -4\pi^2f_{k}^2 (r_{m}-r_{m'})^TS_{\theta}(r_{m}-r_{m'})
+\end{eqnarray}
+In the absence of LOC, $S_{\theta}=0$, leading to $C_{k}=\bun_{M}\bun_{M}^{T}$ and 
+\begin{eqnarray*}
+D_{k}(\theta)C_{k}D^{H}_{k}(\theta)&=&G_{k}(\theta)G^{H}_{k}(\theta)
+\end{eqnarray*}
+leading back to the coherent case expression \eqref{eq:spectralmatrix-coherent}.  Based on the independence of the azimuth, the elevation and the velocity and on the one-to-one mapping \eqref{eq:aec}, the covariance matrix $S_{\theta}$ can be expressed as a function of the dispersion $\sigma_{a}$ of the azimuth, the dispersion $\sigma_{e}$ of the elevation and the dispersion $\sigma_{c}$ of the velocity.
+
+ 
+%============================================
+%============================================
+\subsection{TDOA}
+Another approach is based on the time difference of arrivals (TDOA) for the $(m,k)$ sensor pair 
+$\omega_{c}=\tau_{k}-\tau_{m}$
+where
+$c=(m-k) + (k-1)M -k(k-1)/2$ with $1\leq k\leq M-1$ and $k+1\leq m \leq M$. Hence $c$ goes from $1$ to $C=M(M-1)/2$.
+The TDOA can be estimated by:
+\begin{eqnarray}
+ \label{eq:intercorrkm}
+\hat \omega_{c}&=& \arg\max_{u}\sum_{n} x_{n,k}x_{n-u,m}
+\end{eqnarray}
+
+In practice, the maximization is carried out on a fine grid of values of $u$. Let us remain that $x_{n}$ can be interpolated with any oversampling rate and, for any real value of $u$, $x_{n-u,m}$ can be performed, according to the sampling theorem, from the values $x_{n,m}$. The maximum can also be improved by parabolic interpolation.
+
+It is worth to notice that the estimation of $\hat \omega_{c}$ is not based on the sensor location, the sensor location is considered in a second step to estimate the slowness vector from the TDOA  estimates. The  advantages of the TDOA approach with respect to the MLE approach is that (i) the TDOA involves $(M-1)$ scalar optimization whereas the MLE is based on a 3D optimization and (ii) the TDOA is  linearly related to the POI $\theta$. Indeed under general conditions $\hat \omega_{c}$ is approximately an unbiased estimator of $\tau_{k}-\tau_{m}$, that writes:
+\begin{eqnarray}
+ \label{eq:linearThetamodel}
+  \hat\omega_{c} &=&(r_{k}-r_{m})^{T}\theta+\epsilon_{c}
+ \end{eqnarray}
+where $\epsilon_{c}$  is a zero-mean random variable. Using matrix notation we obtain the linear model:
+\begin{eqnarray}
+ \label{eq:linearThetamodel-matrixform}
+\hat\omega &=& GH\theta + \epsilon
+\end{eqnarray}
+where $H$ is a $M\times 3$ matrix whose rows are the coordinates $r_{m}$ and  $G$ a $C\times M$ matrix whose each row consists of $0$ except two entries equal to $+1$ and $-1$. For example for $M=4$ we have:
+ \begin{eqnarray}
+ \label{eq:GWtau}
+G=
+\begin{bmatrix}
+1&-1&0&0\\
+1&0&-1&0\\
+1&0&0&-1\\
+0&1&-1&0\\
+0&1&0&-1\\
+0&0&1&-1\\
+\end{bmatrix}
+ \end{eqnarray}
+ 
+ 
+ 
+%If $\Gamma$ denotes the covariance matrix of $\epsilon$, up to a multiplicative positive constant, the WLS of $\theta$ writes:
+% \begin{eqnarray*}
+% \hat\theta &=& (H^{T}G^{T}GH)^{-1}H^{T}G^{T}\omega
+% \end{eqnarray*}
+
+
+%============================================
+%============================================
+%============================================
+\section{Detection}
+
+%============================================
+%============================================
+ \subsection{Test based on the deterministic likelihood}
+The likelihood function is commonly used to infer on statistical model.  A widely used approach to determine a test of $H_{0}$, at the significance level $\alpha$,  is based on the Generalized Likelihood Ratio Test (GLRT) which is defined by:
+\begin{eqnarray}
+\label{eq:defGLRT}
+S(X) &=&\max_{\mu\in\mathcal{M}}\ell(\mu) - \max_{\mu\in H_{0}}\ell(\mu)
+\end{eqnarray}
+where $\ell$ is given by \eqref{eq:loglikelihood-determinstic} and where the $X$ notation refers to the full observation $x_{1}$ to $x_{N}$. The observed value of $S(X)$ is compared to a threshold, which is performed in such a way the level of significance is less or equal to a given value $\alpha$.
+
+% The maximization w.r.t. $\sigma^{2}$ leads  (up to an additive constant) to the following function:
+%  \begin{eqnarray}
+% \label{eq:loglikelihood-determinstictilde}
+% \tilde\ell(s,\theta)&=&-\frac{1}{2}NM\log \sum_{n=1}^{N}\|x_{n}-s_{n}(\theta)\|^{2}
+% \end{eqnarray}
+% The maximization w.r.t. $\theta$ is done computationally using a fine grid for $\theta$. For a given value of $\theta$ the maximization w.r.t. $s$ can be performed as it follows. First we perform the sequence of delays $\tau_{m}=r_{m}^{T}\theta$ and apply the delay $-\tau_{m}$ to the signal $x_{n,m}$, that gives the signal denoted $ \tilde x_{n,m}(\theta)$.
+%From \eqref{eq:loglikelihood-determinstictilde}, we get:
+%  \begin{eqnarray}
+% \label{eq:loglikelihood-determinstictilde2}
+% \tilde\ell(s,\theta)&=&-\frac{1}{2}NM\log \sum_{n=1}^{N}\| \tilde x_{n}(\theta)-s_{n}\|^{2}
+% \end{eqnarray}
+%Maximization w.r.t. $s_{n}$ is obvious and gives
+%\begin{eqnarray}
+% \label{eq:loglikelihood-determinstic3}
+% \ell_{3}(\theta)&=&-\frac{1}{2}NM\log \sum_{n=1}^{N}
+%          \tilde x_{n}^{T}(\theta)\Pi_{M}^{\perp} \tilde x_{n}^{T}(\theta)
+% \end{eqnarray}
+%where $\Pi_{M}^{\perp}=I_{M}-\Pi_{M}=I_{M}-\frac{1}{M}\bun_{M}\bun_{M}^{T}$ in the operator in $\mathds{R}^{M}$ projecting onto the kernel of $\Pi_{M}$.
+
+We denote $\tilde x_{n,m}(\theta)=x_{m}(nT_{s}+r_{m}^{T}\theta)$ and $\tilde x_{n}(\theta)=\begin{bmatrix}
+\tilde x_{1,m}(\theta)&\ldots&\tilde x_{1,m}(\theta)\end{bmatrix}^{T}$. For any  value of $\theta$, $\tilde x_{n,m}^{T}(\theta)$ can be easily performed from $x_{n,m}$, thanks to the theoretical interpolation formula of the sampling theorem.
+
+For the deterministic model, using the expression \eqref{eq:loglikelihood-determinstic} and the definition  \eqref{eq:defGLRT},  a straightforward calculation shows that $S(X)$ given by \eqref{eq:defGLRT} is monotonically related to the following statistic of test:
+\begin{eqnarray}
+ \label{eq:SoT}
+ T(X) &=& \max_{\theta\in\mathds{R}^{3}}
+ \frac{\sum_{n=0}^{N-1}\tilde x_{n}^{T}(\theta)\Pi_{M} \tilde x_{n}(\theta)}
+        {\frac{1}{M-1}\sum_{n=0}^{N-1}\tilde x_{n}^{T}(\theta)\Pi_{M}^{\perp}\tilde x_{n}(\theta)}
+ \end{eqnarray}
+ where $\Pi_{M}=\frac{1}{M}\bun_{M}\bun_{M}^{T}$ is the rank 1 projector onto the vector $\bun_{M}$, whose all entries are equal to $1$, and  $\Pi_{M}^{\perp}=I_{M}-\Pi_{M}$  is the  projector of rank $(M-1)$, orthogonal to $\Pi_{M}$. 
+
+%The numerator is equal to $\trace{\Pi_{M}\mathcal{R}_{N}}=\mathcal{S}/M$ and the denominator to $(M-1)^{-1}(\trace{\mathcal{R}_{N}}-\trace{\Pi_{M}\mathcal{R}_{N}})=(M-1)^{-1}(\mathcal{T}-\mathcal{S}/M$)$.
+
+The statistic $T(X)$ has a clear meaning, it represents the ratio between what can be explained by the full coherent part, i.e. the vector $\bun_{M}$,  and what can be explained by the noise part. Closer to $1$ is $T(X)$, more likely the hypothesis $H_{0}$.
+
+It is worth to notice that the statistic $T(X)$ is invariant by multiplication of the observed signals by any common scaling factor. It follows that, under $H_{0}$, the distribution of $T(X)$ does not depend on $\sigma$. Hence we can consider that $\sigma=1$. It follows that, for a \emph{fixed value} of $\theta$, the statistic $T(X)$ under $H_{0}$ is Fisher distributed with $(N,N(M-1))$ degrees of freedom.
+
+But this result can not be applied to the statistic of test given by \eqref{eq:SoT} because the maximization w.r.t. $\theta$, and therefore it is no more Fisher distributed. Unfortunately the distribution of the GLRT under $H_{0}$ is unknown. However the asymptotic distribution has been derived in \cite{adrien} replacing in \eqref{eq:SoT} the continuous set of $\theta$ by a finite set of values $\Theta=\{\theta_{1},\cdots,\theta_{Q}\}$. The main result says that  the statistic 
+\begin{eqnarray}
+ \label{eq:SoTdiscrete}
+ T(X) &=& \max_{\theta\in \Theta}
+ \frac{\sum_{n=0}^{N-1}\tilde x_{n}^{T}(\theta)\Pi_{M} \tilde x_{n}(\theta)}
+        {\frac{1}{M-1}\sum_{n=0}^{N-1}\tilde x_{n}^{T}(\theta)\Pi_{M}^{\perp}\tilde x_{n}(\theta)}
+ \end{eqnarray}
+is asymptotically distributed as the maximum of the $Q$ length Gaussian vector $\cF$  following 
+\begin{eqnarray}
+\label{eq:CLTonFN}
+&&\sqrt{N}(\cF-\mathds{1}_{Q})
+\rightarrow_{d}
+\mathcal{N}\left(0,\Xi\right), 
+\end{eqnarray}
+where $\Xi$  is a $Q$ square matrix given by $\Xi=J\Upsilon J^{T}$ 
+with
+\begin{eqnarray}
+\label{eq:jacobianYonW}
+J&=&
+\begin{bmatrix}
+1&-1&0&0&\cdots&0&0
+\\
+ \vdots
+\\
+0&0&\cdots&0&0&1&-1
+\end{bmatrix}
+\end{eqnarray}
+and where the $2Q$ square matrix $\Upsilon$ has entries  for $1\leq q,q'\leq Q$ given by:
+\begin{eqnarray}
+\label{eq:oo2}
+\left \{
+ \begin{array}{lll}
+ \Upsilon_{2q-1,2q'-1}=
+ \frac{2}{M^{2}} \sum_{m,m'} \mathds{1}(w_{q,m,m'}=w_{q',m,m'})
+\\
+\Upsilon_{2q,2q'}
+ =
+  \frac{2}{(M-1)^{2}}  \sum_{m,m'} \mathds{1}(w_{q,m,m'}=w_{q',m,m'})(\delta_{m,m'}-
+   2\frac{\delta_{m,m'}}{M}+\frac{1}{M^{2}})
+\\
+ \Upsilon_{2q-1,2q'}
+ = \frac{2}{M(M-1)} \sum_{m,m'} \mathds{1}
+ (w_{q,m,m'}=w_{q',m,m'})(\delta_{m,m'}-\frac{1}{M})
+ \end{array}
+ \right.
+\end{eqnarray}
+Unfortunately the closed form expression of the distribution of the maximum of the components of a general Gaussian vector is unknown, except if the matrix $\Xi$ is  diagonal. But an efficient solution can be performed by Monte-Carlo approach. This asymptotic distribution can also be used to perform the $p$-value of the observation  or the  threshold related to a given confidence level. Let us notice that the asymptotic distribution is only related to the size $M$ of the sensor array and the size $Q$ of the set of slowness vectors used for the maximization. Therefore it can be pre-calculated.
+
+%============================================
+%============================================
+ \subsection{Test based on the stochastic likelihood}
+The determination of the GLRT of the stochastic model is a little bit more cumbersome than for the deterministic model. However if we assume that the WOI is white with spectral density $s^{2}$ and there is no LOC, the GLRT expression can be derived. Using notation of the expression \eqref{eq:loglikelihood-stochastic} we have $\Gamma_{k} = s^{2}G_{k}(\theta)G_{k}^{H}(\theta)+\sigma^{2}I$. It easily follows that:
+\begin{eqnarray*}
+\left\{
+\renewcommand\arraystretch{1.4}
+\begin{array}{l}
+\log \det \Gamma_{k}=\log(\rho+1)+M\log\sigma^{2}
+ \\
+\Gamma_{k}^{-1}=\sigma^{-2}I+\sigma^{-2}\rho(1+\rho)^{-1} M^{-1 }G_{k}(\theta)G_{k}^{H}(\theta)
+\end{array}\right
+\end{eqnarray*}
+where $\rho=Ms^{2}/\sigma^{2}\geq 0$.  Let us remain that $G_{k}(\theta)&=&\begin{bmatrix} 
+e^{-2j\pi f_{k}r_{1}^{T}\theta}&\ldots&e^{-2j\pi f_{k}r_{M}^{T}\theta}
+\end{bmatrix}^{T}$.
+  
+%We let $\bR = K^{-1}\sum_{k=1}^{K}X_{k}X_{k}^{H}$.
+The expression \eqref{eq:loglikelihood-stochastic}  can be rewritten:
+\begin{eqnarray*}
+  \ell(\mu)/K&=&-\log \pi-\log (1+\rho) - M\log \sigma^{2}-\sigma^{-2} T_{N} %\trace{R}
+  -\sigma^{-2}\frac{\rho}{1+\rho}S_{N}(\theta)% \frac{1}{M}G^{H}RG
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+T_{N}=\frac{1}{K}\sum_{k=1}^{K}X_{k}^{H}X_{k}
+\quad\mathrm{and}\quad
+S_{N}(\theta)= \frac{1}{KM}\sum_{k=1}^{K}|G_{k}^{H}(\theta)X_{k}|^{2}
+\end{eqnarray*}
+and $\mu=\{\rho,\sigma^{2},\theta\}\in\mathds{R}^{+}\times\mathds{R}^{+}\times\mathds{R}^{3}$, with $H_{0}=\{0\}\times \mathds{R}^{+}\times\mathds{R}^{3}$. An easy calculation shows that the GLRT function is approximatively monotonous  w.r.t. the statistic:
+\begin{eqnarray*}
+S(X) &=& \dfrac{\max_{\theta\in\mathds{R}^{3}}S_{N}(\theta)}{T_{N}}
+\end{eqnarray*}
+This expression is monotonically related to the expression \eqref{eq:SoT}. Indeed, based on  Parseval's identity the numerator is equal to the numerator of the  expression \eqref{eq:SoT}. The denominator, because the stationarity, is almost equal to $\sum_{n=1}^{N}\tilde x_{n}^{T}(\theta)\tilde x_{n}(\theta)=\sum_{n=1}^{N}\tilde x_{n}^{T}(\theta)\Pi_{M}\tilde x_{n}(\theta)+\sum_{n=1}^{N}\tilde x_{n}^{T}(\theta)\Pi_{M}^{\perp}\tilde x_{n}(\theta)$. It is not surprising that this solution is similar to the solution \eqref{eq:SoT}: indeed the whiteness assumption in the stochastic model is very close to the assumption that the signal is fully unknown in the deterministic model.
+
+%============================================
+%============================================
+  \subsection{Test based on the TDOAs}
+Thanks to the different locations of the station sensors, we can derive a test taking into account the coherency of the time delays 
+between the different sensors. For example in the absence of noises, the temporal delays have to algebraically sum to zeros for any closed circuit. That leads to the consistency used in PMCC software. On the other hand the cross-correlation could be close to one, therefore the mean of the cross-correlation maxima can be used to a test function. That leads to the following definitions:
+\begin{description}
+\item[Consistency:]
+We let $\omega_{km}$ the time difference of arrivals between the sensors $k$ and $m$ whose an estimate is given by \eqref{eq:intercorrkm}. For any 3-edge closed  circuit, the following sum $r_{kmp}=\omega_{km}+\omega_{mp}+\omega_{pm}$ is $0$. Taken all 3-edge closed  circuits, the test can be based on the statistic:
+\begin{eqnarray}
+\label{eq-defconsistency}
+C =\left( \sum_{1\leq m<k<p\leq M}\hat r^{2}_{kmp}\right)^{1/2}
+\end{eqnarray}
+where $\hat r_{kmp}=\hat\omega_{km}+\hat\omega_{mp}+\hat\omega_{pm}$.  Greater the value of $C$, more likely is the absence of WOI in the observed signals. The major drawback is that the distribution under $H_{0}$ is unknown. Even if we can assume that the random variable $\hat r_{kmp}$ is approximatively Gaussian with zero-mean, the variance is unknown and does depend on the noise level.
+
+%he number of 3-edge closed  circuits is equal to $M(M-1)(M-2)/6$.
+
+
+\item[MCCM:] the MCCM has been introduced for infrasound signal detection in \cite{wilson:2005bis}. Let us denote the cross-correlation sequence between the $k$ and $m$ sensor signals:
+\begin{eqnarray*}
+\rho_{km}(u)&=&\frac{\sum_{n} x_{n,k}x_{n-u,m}}{\sqrt{\sum_{n} x^{2}_{n,k}\sum_{n} x^{2}_{n,m}}}
+\end{eqnarray*}
+The MCCM writes:
+\begin{eqnarray}
+\label{eq:mccmdef}
+\mccm&=&\sum_{1\leq k<m\leq M}\max_{u}\rho_{km}(u)
+\end{eqnarray}
+
+
+\end{description}
+
+
+
+%============================================
+%============================================
+\subsection{EROC curve and EAUC}
+The performance can be evaluated via the Receiver Operating Characteristic (ROC) curve and summarized with the  area under the ROC curve (AUC).  
+
+When the hypothesis $H_{0}$ under test and the  counter hypothesis $H_{1}$ are both \emph{simple} (meaning that both hypotheses are singleton), the ROC curve of a function of test $T$ is defined by the detection probability $\beta$ as a function of the false alarm probability $\alpha$. More specifically we have for all values of the scalar parameter $t$:
+\begin{eqnarray*}
+\left\{
+\begin{array}{rcl}
+\alpha(t)&=&\prob{T>t|H_{0}}
+\\
+\beta(t)&=&\prob{T>t|H_{1}}
+\end{array} \right.
+\end{eqnarray*}
+Unfortunately in almost all real problems, the hypotheses are not simple but composite. In this case, $\alpha$ and $\beta$ are not clearly defined, but the performances can be evaluated experimentally on two data bases, one with $N_{0}$ examples associated to the hypothesis $H_{0}$ and the other with $N_{1}$ examples associated to the hypothesis  $H_{1}$. In this case we talk of experimental ROC (EAUC) and experimental AUC (EAUC).
+
+For all examples of the two databases we perform respectively the value sequences $T_{\{0,1:N_{0}\}}$ and $T_{\{1,1:N_{1}\}}$. We then derive an estimate of the EROC curve:
+\begin{eqnarray*}
+\left\{
+\begin{array}{rcl}
+ \hat\alpha(t)&=&\dfrac{1}{N_{0}}\sum_{i_{0}=1}^{N_{0}}\mathds{1}(T_{0,i_{0}}>t)
+\\
+ \hat\beta(t)&=&\dfrac{1}{N_{1}}\sum_{i_{1}=1}^{N_{1}}\mathds{1}(T_{1,i_{1}}>t)
+\end{array}
+\right.
+\end{eqnarray*}
+where $t$ is any value usually in the range of the values of the two databases. 
+
+A confidence interval at $100\rho\%$ of $\alpha(t)$ is given by:
+\begin{eqnarray}
+\label{eq:ICpercentupper}
+\ci_{100\rho\%}^{\alpha(t)}=\begin{bmatrix} 
+\dfrac{1}{1+\dfrac{c_{\rho}^{2}}{N_{0}}} 
+\left(\hat\alpha(t) + \dfrac{c_{\rho}^{2}}{2N_{0}} - 
+c_{\rho}\sqrt{\dfrac{\hat\alpha(t)(1-\hat\alpha(t))}{N_{0}}+\dfrac{c_{\rho}^{2}}{4N_{0}^2}}
+ \right), 
+ \\
+\hspace{1cm}
+\dfrac{1}{1+\dfrac{c_{\rho}^{2}}{N_{0}}}
+\left(\hat\alpha(t) + \dfrac{c_{\rho}^{2}}{2N_{0}} +
+c_{\rho}\sqrt{\dfrac{\hat\alpha(t)(1-\hat\alpha(t))}{N_{0}}+\dfrac{c_{\rho}^{2}}{4N_{0}^2}}
+ \right)
+ \end{bmatrix}
+\end{eqnarray}
+and of $\beta(t)$ by:
+\begin{eqnarray}
+\label{eq:ICpercentlower}
+\ci_{100\rho\%}^{\beta(t)}=\begin{bmatrix} 
+\dfrac{1}{1+\dfrac{c_{\rho}^{2}}{N_{1}}}
+\left(\hat\beta(t) + \dfrac{c_{\rho}^{2}}{2N_{1}} -
+c_{\rho}\sqrt{\dfrac{\hat\beta(t)(1-\hat\beta(t))}{N_{1}}+\dfrac{c_{\rho}^{2}}{4N_{1}^2}}
+ \right),
+ \\
+\hspace{1cm}
+\dfrac{1}{1+\dfrac{c_{\rho}^{2}}{N_{1}}}
+\left(\hat\beta(t) + \dfrac{c_{\rho}^{2}}{2N_{1}} +
+c_{\rho}\sqrt{\dfrac{\hat\beta(t)(1-\hat\beta(t))}{N_{1}}+\dfrac{c_{\rho}^{2}}{4N_{1}^2}}
+ \right) 
+ \end{bmatrix}
+\end{eqnarray}
+where $c_{\rho}$ is given by
+\begin{eqnarray*}
+ \int_{c_{\rho}}^{+\infty}\frac{1}{\sqrt{2\pi}}\,e^{-x^2/2}dx = \frac{1-\rho}{2}
+\end{eqnarray*}
+where $\rho\in(0,1)$.
+
+A classical estimator of the EAUC is given by the Wilcoxon-Mann-Whithney statistic:
+\begin{eqnarray}
+\label{eq:WMWstatistic}
+ \hat A = \frac{1}{N_{0}N_{1}}\sum_{i_{0}=1}^{N_{0}}\sum_{i_{1}=1}^{N_{1}}\mathds{1}(T_{1,i_{1}} \geq T_{0,i_{1}})
+\end{eqnarray}
+In a case of simple hypotheses, it is shown that $\esp{\hat A}&=&A$ where $A$ denotes the true AUC. Assuming that the examples of the databases are independent we can derive the   confidence interval for $A$ based on the following variance  estimate:
+{\small\begin{eqnarray}
+\label{eq:varWexp}
+\sigma^{2}_{W}(\hat A)
+ &=& \frac{1}{N_{0}N_{1}}
+ \left\{\hat A^{2}+\hat A - (N_{0}+N_{1})\hat A^{2}
+  +(N_{0}-1)\frac{2\hat A^{2}}{1+\hat A}+(N_{1}-1)\frac{\hat A}{2-\hat A}
+\right\}
+\end{eqnarray}}
+
+The main issue is the choice of the two data bases. It is clear that the databases must be agreed by a community of experts. Eventually several databases may be considered depending on a classification of interest. If no  databases with ground-truth exist we can consider Monte-Carlo approach by generating simulated data. Here again the choice of the simulation methods are crucial. 
+
+%============================================
+%============================================
+\subsection{Simulations}
+
+%============================================
+\subsubsection{Statistic under $H_{0}$}
+Figure \ref{fig:thetafixFIsher} we have reported results of a simulation when the slowness vector is known. The histogram is clearly in good agreement with the Fisher distribution with $(N,N(M-1))$ d.o.f. Th histogram was obtained by a Monte Carlo approach based on $\nbsamples$ samples. The sensor coordinates are given table \ref{tab:sensorlocations}. The 
+
+\figscale{figures/thetafixFisher.pdf}{Histograms under $H_{0}$ for $N=600$ and $M=8$ (see table \ref{tab:sensorlocations}). Under $H_{0}$, there is no maximization w.r.t. $\theta$ in \eqref{eq:SoT}, meaning the slowness vector is known, the distribution of the GLRT function of test is distributed as Fisher with $(N,N(M-1))$ d.o.f.}{fig:thetafixFIsher}{0.6}
+
+\begin{table}
+\begin{eqnarray*}
+{\scriptsize
+\renewcommand\arraystretch{1.2}
+\begin{array}{|c|c|c|c||c|c|c|c|}
+ \hline
+ \text{sensor}&     x - [\text{km}]&y - [\text{km}]&z - [\text{km}] & \text{sensor}&     x - [\text{km}]&y - [\text{km}]&z - [\text{km}]\\
+ \hline
+1&            -0.05997213&  0.194591122&   0.3911 & 5& -0.026664123&   0.015567290&   0.391\\
+2&        0.229169719&   0.083396195&   0.3921  & 6&  0.919425013&   0.719431175&   0.3924\\
+3&           0.122158887&  -2.206822564&   0.3918 & 7& 0.183105453&  -1.103053672&   0.3831\\
+4&           -0.12375342&  -0.087843992&   0.3902 & 8&  -1.2434694&   0.384734446&   0.3976\\
+ \hline
+\end{array}
+}
+\end{eqnarray*}
+\caption{\small\it Sensor locations (IS31 form IMS)}
+ \label{tab:sensorlocations}
+\end{table}
+
+
+
+Figure \ref{fig:simul2} we have reported results of simulation, when the maximization is also applied on the slowness vector, expression \eqref{eq:SoTdiscrete}. A comparison with the distribution given by \eqref{eq:CLTonFN} is also given. The latter was obtained by a Monte Carlo approach based on $\nbsamples$ samples. We have considered\footnote{$\linspace(a,b,n)$ denotes the sequence of the $n$ uniformly distributed values between $a$ and $b$. } $\Theta= \{ \linspace(0\degree,180\degree,25) \times\{30\degree,50\degree\} \times \{300\mps, 340\mps\}$. Hence the size $Q=100$. The sensor coordinates are given table \ref{tab:sensorlocations}. We see that the histograms of the test \eqref{eq:SoTdiscrete} and the asymptotic distribution are very close to each other, but very different from the Fisher distribution.
+
+
+
+\figscale{figures/simul2.pdf}
+{Histograms under $H_{0}$ for $N=600$ and $M=8$ (see table \ref{tab:sensorlocations}).  Left: histogram from $500$ random draws, under the noise-only hypothesis, we performed the expression \eqref{eq:SoTdiscrete} with maximization on $\Theta$. The solid curve is the theoretical Fisher distribution with $(N,N(M-1))$ d.o.f. Right: histogram based on Monte-Carlo approach with $\nbsamples$ samples of the asymptotic distribution given by \eqref{eq:CLTonFN}.}{fig:simul2}{0.55}
+
+
+%============================================
+\subsubsection{Experimental ROC curve}
+Experimental ROC curves are reported figure \ref{fig:rocauc}.  The sensor location is given table \ref{tab:sensorlocations}. The scenario consists of $500$ runs for each $H_{0}$ and $H_{1}$. Under $H_{1}$, we randomly drawn the azimuth in the range $(0\degree,360\degree)$. We considered successively the case where the LOC is absent and the case where the LOC is present. When the LOC is present the dispersion of the slowness vector is characterized by independent dispersion of the azimuth, the inclination and the velocity. Using the Jacobian of the one-to-one mapping \eqref{eq:aec}, we derive the numerical values of $S_{\theta}$ in \eqref{eq:spectralmatrix-LOC}. The ROC curve is obtained assuming that the LOC parameters are $\sigma_{a}$, $\sigma_{e}$ and $\sigma_{c}$ known. In practical situations where $\sigma_{a}$, $\sigma_{e}$ and $\sigma_{c}$ have to be estimated the results will be worst. We clearly see  a loss of performances when the LOC is present.
+
+
+\figscale{figures/rocaucLOC1.pdf}
+{Experimental ROC curve without/with LOC for the statistic \eqref{eq:SoTdiscrete}. The number of samples is $N=600$, the SNR is $-15$ dB. Under the $H_{1}$ hypothesis, the elevation $70\degree$ and the velocity $340\mps$ are fixed, and the azimuth is randomly drawn between $0\degree$ and $360\degree$.  The LOC is characterized by $\sigma_{a}=5\degree$, $\sigma_{e}=3\degree$ and $\sigma_{c}=13\mps$. All values, except the azimuth, are assumed to be known. The maximization in \eqref{eq:SoTdiscrete} is applied on the finite azimuth grid $\linspace{(0\degree,359\degree,100)}$.}{fig:rocauc}{0.6}
+
+
+
+
+%============================================
+%============================================
+%============================================
+\section{Slowness estimation}
+%============================================
+%============================================
+\subsection{Estimate based on the likelihood}
+
+The Maximum Likelihood Estimator (MLE) of $\mu$ associated to the log-likelihood function is defined by:
+ \begin{eqnarray}
+  \label{eq:MLE-def}
+\hat \mu &=& \arg\max_{\mu\in\mathcal{M}}  \ell(\mu)
+ \end{eqnarray}
+For the deterministic model, an easy calculation leads to: 
+\begin{eqnarray}
+ \label{eq:MLE-deterministic}
+\hat \theta &=& \arg \max_{\theta\in\mathds{R}^{3}}
+ \tilde x_{n}^{T}(\theta)\Pi_{M} \tilde x_{n}(\theta)
+ \end{eqnarray}
+ 
+ \subsection{Estimate based on the TDOA}
+Based on the TDOA given by the equation  \eqref{eq:intercorrkm}, an estimate of $\theta$ is derived from the linear model \eqref{eq:linearThetamodel-matrixform}. Assuming the covariance matrix of $\epsilon$ is $\sigma^{2}I_{C}$, where $\sigma^{2}$ is unknown, the ordinary least square (OLS) approach leads to the POI estimator:
+\begin{eqnarray}
+\label{eq:OLS-estimate}
+\hat\theta&=&
+(H^{T}G^{T}GH)^{-1}H^{T}G^{T}\hat\omega
+\end{eqnarray}
+In \cite{?}, it is shown that the covariance matrix of $\epsilon$ writes $\sigma^{2}C$ where $C$ is a matrix whose form depends on the SNRs and the spectral densities of the different sensor signals. In this case the least square approach leads to the weighted least square (WLS) estimator:
+\begin{eqnarray}
+\label{eq:WLS-estimate}
+\hat\theta&=&
+(H^{T}G^{T}C^{-1}GH)^{-1}H^{T}G^{T}C^{-1}\hat\omega
+\end{eqnarray}
+
+It is shown \cite{?} that if the SNRs and the spectral densities on each sensor are equal, the OLS an the WLS estimators coincide.
+
+%============================================
+%============================================
+\subsection{Cramer Rao bound (CRB)}
+The Cramer-Rao bound (CRB) provides a fundamental lower bound of the minimal square error. Let us denote $}\ell(\mu)$ the log-likelihood function depending on the POI $\mu$. Then any unbiased estimator $\hat\mu$ of $\mu$ has a covariance matrix which verifies:
+\begin{eqnarray*}
+ \esp{(\hat\mu-\mu) (\hat\mu-\mu)^{T}}&\geq& \mathrm{CRB}(\mu) = \fim^{-1}(\mu)
+\end{eqnarray*}
+where $\fim$ is called the Fisher information matrix (FIM) whose $(q,q')$-entry writes:
+\begin{eqnarray*}
+ \fim_{q,q'}&=&\esp{\partial_{\mu}\,\ell(\mu)\,\partial_{\mu}^{T}\ell(\mu)}
+\end{eqnarray*}
+where $\partial_{\mu}\ell(\mu)$ is the Jacobian of  $\ell(\mu)$ w.r.t. $\mu$.  
+
+For $K$ independent Gaussian complex random vectors with mean $m_{k}(\mu)$ and covariance matrix $\Gamma_{k}(\mu)$, the $\fim$ writes \cite{kay:1993}, \cite{kosick:2008}:
+\begin{eqnarray}
+\label{eq:fimgaussaincomplex}
+\nonumber
+  \fim_{q,q'}&=& \sum_{k=1}^{K}\trace{\Gamma_{k}^{-1}(\mu)\times\partial_{q}\Gamma_{k}(\mu)\times\Gamma_{k}^{-1}(\mu)\times\partial_{q'}\Gamma_{k}(\mu)}
+  \\ 
+ &&\hspace{12pt}+2\real{\partial_{q}m_{k}^{H}(\mu)\times\Gamma_{k}^{-1}(\mu)\times\partial_{q'}m_{k}(\mu)}
+\end{eqnarray}
+
+To illustrate we restrict to the stochastic case given by the log-likelihood function \eqref{eq:loglikelihood-stochastic} with zero-mean and spectral matrix given by \eqref{eq:spectralmatrix-LOC}. For sake of simplicity we assume that the coherence matrix $C$, given by \eqref{eq:log-coherence}, is known. If it is unknown we have also to derivate w.r.t. the parameter  charaterizing the LOC. Therefore the POI writes:
+ \begin{eqnarray*}
+  \mu=(\{\mu_{1},\mu_{2},\mu_{3}\}=\theta,\mu_{4}=\sigma^{2},\gamma)\in\mathcal{M}= \mathds{R}^{3}\times \mathds{R}^{+}\times\mathds{R}^{K}
+\end{eqnarray*} 
+where $\gamma=\begin{bmatrix} \gamma_{1}&\ldots& \gamma_{K} \end{bmatrix}^{T}$ is the spectral content, as it is given by expression \eqref{eq:poistochastic}. It is worth to notice that $\fim$ is a $L=K+4$ dimensional square matrix. We consider the stochastic Gaussian case, as given by the expression \eqref{eq:loglikelihood-stochastic}. It is shown \cite{gershman2001} that the $(q,q')$-entry of the $\fim$ writes:
+\begin{eqnarray}
+ \label{eq:FIMgaussian}
+\fim_{q,q'}(\mu)&=&\sum_{k=1}^{K-1}\trace{\Gamma_{k}^{-1}\times\partial_{q}\Gamma_{k}\times\Gamma_{k}^{-1}\times\partial_{q'}\Gamma_{k}}
+\end{eqnarray}
+where $1\leq q,q'\leq L=K+4$ and where $\partial_{q}\Gamma_{k}$ is 
+the partial derivative w.r.t. the $q$-th component of $\mu$.  For the three first components $q=1,2,3$ related to the slowness parameter $\theta$:
+\begin{eqnarray*}
+\partial_{q}\Gamma_{k}&=&
+   \gamma_{k}\diag{ \dot d_{k,q}(\theta)}C_{k}(\beta)D_{k}^{H}(\theta)+
+   \gamma_{k} D_{k}(\theta)C_{k}(\beta) \diag{ \dot d_{k,q}(\theta)}^{H}
+\end{eqnarray*}
+where the derivative
+\begin{eqnarray*}
+ \dot d_{k,q}(\theta)&=&
+  \begin{bmatrix}
+  -2j\pi f_{k}F_{s} r_{1,q}\,e^{-2j\pi f_{k}F_{s}r_{1}^{T}\theta}
+  \\
+  \vdots
+  \\
+  -2j\pi f_{k}F_{s} r_{M,q}\,e^{-2j\pi f_{k}F_{s}r_{M}^{T}\theta}
+  \end{bmatrix}
+\end{eqnarray*}
+For the derivation w.r.t. $\sigma^{2}$ we have:
+\begin{eqnarray*}
+\partial_{4}\Gamma_{k}&=&I_{M}
+\end{eqnarray*}
+A direct consequence is that the $\fim$ is a 3  block diagonal matrix of the form:
+\begin{eqnarray*}
+ \fim&=&\begin{bmatrix}
+ F_{\theta}&0&0\\
+ 0&F_{\sigma^{2}}&0\\
+ 0&0&F_{\gamma,K,K}
+ \end{bmatrix}
+\end{eqnarray*}
+where $F_{\theta}$ is a $3$ by $3$ positive matrix associated to the sub-parameter $\theta$, $F_{\sigma^{2}}$ a scalar associated to the scalar sub-parameter $\sigma^{2}$ and $F_{\gamma,K,K}$ a $K$ by $K$ positive diagonal matrix associated to the sub-parameter $\gamma$.
+The CRB on the estimation of $\theta$ is lower bounded by $F_{\theta}^{-1}$. Then the CRB on the azimuth, elevation and velocity is derived using the expression \eqref{eq:covthetacovnu}. 
+
+
+Figure \ref{fig:STDasSNRLOC0I31}, we have reported the azimuth standard deviation (STD) derived form the CRB together with a Monte-Carlo (MC) simulation  based on the expression \eqref{eq:MLE-deterministic}. The WOI shape is assumed to be white, i.e. $\gamma_{k}=\gamma$, and the SNR $\gamma/\sigma^{2}$ is assumed to be known. The {\em only unknown slowness parameter is the azimuth} and there is no LOC. Let us notice that the derivative in expression \eqref{eq:FIMgaussian} must be restricted to the azimuth.
+
+We observe that, for low SNRs, the CRB is loose. That is a well-known result \cite{theodoridis:2013}, \cite{kosick:2004}.
+
+%========= figure
+\figscale{figures/STDasSNRLOC0I31.pdf}{Azimuth STD derived from CRB and from a $100$ runs Monte-Carlo (MC) simulation as a function of SNR. The sensor location is given by table \ref{tab:sensorlocations}. The number of signal samples is $N=600$. The only unknown slowness parameter is the azimuth} and there is no LOC.}{fig:STDasSNRLOC0I31}{0.6}
+
+The CRB can be exploited for station designing. The following calculation provides an illustration.
+
+Figure \ref{fig:CRBonazimut}, we have reported the azimuth STD derived from the CRB, without and with LOC, for sensor locations given in table \ref{tab:sensorlocations}. The WOI shape is assumed to be white, i.e. $\gamma_{k}=\gamma$, and the SNR $\gamma/\sigma^{2}$ is assumed to be known. Also the elevation, the sound velocity and the LOC characterization  are assumed to be known parameters. We observe a loss of performance in the case  of LOC.
+
+
+%========= figure =====
+\figscale{figures/CRBonazimut.pdf}{Azimuth STD derived from the CRB without and with LOC as a function of the azimuth. The sensor location is given by table \ref{tab:sensorlocations}. The SNR is $-10$ dB. The number of signal samples is $N=600$. The LOC is characterized by $\sigma_{a}=5\degree$, $\sigma_{e}=3\degree$ and $\sigma_{c}=13\mps$. }{fig:CRBonazimut}{0.7}
+
+Figure \ref{fig:CRBstdLOCasXfcactor}, we have reported the mean, w.r.t. the azimuth, of the azimuth STD derived from the CRB as a function of the aperture factor of the station. The aperture is expressed as a multiplicative factor of the sensor location given in table \ref{tab:sensorlocations}. In absence of LOC,  the performance is as much better than the multiplicative factor is higher. In presence of LOC, we see that the performance goes by an optimum. That is in agreement with the coherence model: when the aperture is to small the sensors are too closely located and the performance is bad. On the other hand, when the aperture is to big, the LOC increases and the performance decreases. We notice that the optimal multiplicative factor  is around $0.7$ for the chosen LOC level, characterized by $\sigma_{a}=5\degree$, $\sigma_{e}=3\degree$ and $\sigma_{c}=13\mps$.
+
+%========= figures ======
+\begin{figure}
+\begin{minipage}{6cm}
+{\includegraphics[scale=0.5]{figures/CRBstdLOCasXfcactorLOC0I31.pdf}}
+\end{minipage}
+\begin{minipage}{6cm}
+{\includegraphics[scale=0.5]{figures/CRBstdLOCasXfcactorLOC1I31.pdf}}
+\end{minipage}
+\begin{center}
+\parbox{12 cm}
+{
+    \caption{\protect\small\it  {Mean of the azimuth STD, derived from the CRB, with LOC as a function of the multiplicative factor. The sensor location is given by table \ref{tab:sensorlocations}. The SNR is $-10$ dB. The number of signal samples is $N=600$. The LOC is characterized by $\sigma_{a}=5\degree$, $\sigma_{e}=3\degree$ and $\sigma_{c}=13\mps$. }}
+    \label {fig:CRBstdLOCasXfcactor}
+}
+\end{center}
+\end{figure}
+
+
+%============================================
+%============================================
+ \subsection{Bayesian a priori and adaptive approach}
+%============================================
+
+
+%============================================
+%============================================
+%============================================
+ \section{Experimental results on real data}
+%============================================
+%============================================
+\subsection{Data base}
+
+%============================================
+%============================================
+\subsection{Contingency table of tests}
+
+%============================================
+%============================================
+\subsection{Confidence regions for the slowness}
+
+\end{document}
