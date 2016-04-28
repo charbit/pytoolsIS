@@ -3,52 +3,92 @@
 Created on Wed Feb 17 08:25:20 2016
 
 @author: maurice
+
+Synopsis:
+    - Perform signals with LOC for given randomness of the 
+      slowness vector using the function "synthetizer"
+    - Perform the MSC using the function "estimSCP"
+
 """
+class struct:
+     def __init__(self, **kwds):
+         self.__dict__.update(kwds)
+
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
 
-from toolboxInfrasonic import logMSCtheoGaussian, estimSCP
-from toolboxInfrasonic import generateISwithLOCgaussian
-from numpy.linalg import norm
-from numpy import array, argsort, zeros, size, exp
-from numpy import random
+from geoloc import extractstationlocations
 
-from matplotlib import pyplot as plt
+
+from toolIS import maxfstat, synthetizer, generateISwithLOCgaussian, estimSCP
+from toolIS import evalCRBwithgaussianLOC, CRBonazimuthonlywithoutLOC, logMSCtheoGaussian
+
+# attention we only test the LOC
+# therefore the other values are set at NaN
+
+from numpy import array, ones, size, mean, zeros, dot, pi, nanstd
+from numpy import diag, nan, max, std, exp, conjugate, fix
+from numpy import random, cos, sin, sqrt, arange
+from numpy import ceil, log2, real, concatenate
+from scipy.linalg import sqrtm, norm
+from scipy import fft, ifft , any, isreal, argsort, isnan
+from scipy.signal import lfilter, butter
+from scipy.signal.spectral import coherence
+
+from matplotlib import  pyplot as plt
+
+#listIS = ('I02','I04','I05','I06','I07','I08','I09',
+#     'I10','I11','I13','I14','I17','I18','I19','I21',
+#     'I23','I24','I26','I27','I30','I31','I32','I33',
+#     'I34','I35','I36','I37','I39','I40','I41','I42',
+#     'I43','I44','I45','I46','I47','I48','I49','I50',
+#     'I51','I52','I53','I55','I56','I57','I58','I59')
+
+#listIS = ('I27','I30','I31','I32','I33',
+#     'I34','I35','I36','I37','I39','I40','I41','I42',
+#     'I43','I44','I45','I46','I47','I48','I49','I50',
+#     'I51','I52','I53','I55','I56','I57','I58','I59')
+#
+#02:M=5
+#22:M=4
+#27:M=18
+#30:M=6
+#31:M=8
+#32:M=7
+#33:M=8 (with a few co-located)
+#34,M=12 (with a few co-located)
+#45:M=4
+
+
+#=================
+
+#listIS = ('I22',)
 
 # from scipy.signal import lfilter, butter
 
-station = 1;
-if station == 1:
-        #=== I31KZ
-        xsensor_m =  1000*array([
-            [-0.059972130000000,  0.194591122000000,   0.391100000000000],
-            [0.229169719000000,   0.083396195000000,   0.392100000000000],
-            [0.122158887000000,  -0.206822564000000,   0.391800000000000],
-            [-0.123753420000000,  -0.087843992000000,   0.390200000000000],
-            [-0.026664123000000,   0.015567290000000,   0.391000000000000],
-            [0.919425013000000,   0.719431175000000,   0.392400000000000],
-            [0.183105453000000,  -1.103053672000000,   0.383100000000000],
-            [-1.243469400000000,   0.384734446000000,   0.397600000000000]])
-if station == 2:
-        #=== I22
-        xsensor_m = 1.0e+03 * array([
-            [-0.088034341864435,  -0.095905624230955,   0.272000000000000],
-            [-0.217769161454130,   1.227314002838975,   0.240000000000000],
-            [1.046630508831105,  -0.508438802082452,    0.283000000000000],
-            [-0.740827005512541,  -0.622969576526358,   0.246000000000000]])
-if station == 3:
-        #=== I22
-        xsensor_m = 1.0e+03 *array([
-            [-0.088034341864435,  -0.095905624230955,   0.272000000000000],
-            [-0.217769161454130,   1.227314002838975,   0.240000000000000],
-            [1.046630508831105,  -0.508438802082452,    0.283000000000000]])
+station = 'I22'
+sensors = extractstationlocations(station, ReferenceEllipsoid=23)
+nbsensors = len(sensors)
+xsensors_m = zeros([nbsensors,3])
+if nbsensors == 0:
+    print 'no sensor in %s'%station
+else:
+    for im in range(nbsensors):
+        evi   = sensors[im]
+        xsensors_m[im,:] = array([evi.geolocs.X_km,
+                       evi.geolocs.Y_km, 
+                       evi.geolocs.Z_km])*1000.0;
+    
+    xsensors_m = xsensors_m - xsensors_m[0,:]
+    M = size(xsensors_m,0);
 
 T_sec               = 1200;
 Fs_Hz               = 20.0;
-M                   = size(xsensor_m,0);
 N                   = int(T_sec*Fs_Hz);
 
+#%%
 azimuth0_deg   = 360*random.rand();
 elevation0_deg = 40+30*random.rand();
 velocity0_mps  = 340;
@@ -69,18 +109,18 @@ couples   = zeros([3,C])
 cp        = 0;
 for i1 in range(M-1):
     for i2 in range(i1+1,M):
-        distances[cp] = norm(xsensor_m[i1,:]-xsensor_m[i2,:]);
-        diffloc       = xsensor_m[i2,:] - xsensor_m[i1,:];
+        distances[cp] = norm(xsensors_m[i1,:]-xsensors_m[i2,:]);
+        diffloc       = xsensors_m[i2,:] - xsensors_m[i1,:];
         couples[:,cp] = array([cp,i1+1,i2+1])
         cp=cp+1;       
 
-x = generateISwithLOCgaussian(T_sec, Fs_Hz, xsensor_m,
+x = generateISwithLOCgaussian(T_sec, Fs_Hz, xsensors_m,
                               azimuth0_deg,
                               elevation0_deg,
                               velocity0_mps,
                               sigma_azimuth_deg,
                               sigma_elevation_deg,
-                              sigma_velocity_mps)
+                              sigma_velocity_mps);
 
 MSC  = zeros([Lfft,C])
 cp   = 0
@@ -89,14 +129,13 @@ for i1 in range(M-1):
         frqsFFT_Hz, SDs11, SDs22, SDs12, MSC[:,cp] = estimSCP(x[:,i1],x[:,i2],Lfft,0.5,Fs_Hz, 'hanning');
         cp=cp+1;
 
-logMSCtheo = logMSCtheoGaussian(xsensor_m, frqsFFT_Hz, azimuth0_deg, 
+logMSCtheo = logMSCtheoGaussian(xsensors_m, frqsFFT_Hz, azimuth0_deg, 
                                 elevation0_deg, velocity0_mps, sigma_azimuth_deg, sigma_elevation_deg, sigma_velocity_mps)
 
 #%%
 if 1:
     HorizontalSize = 12
     VerticalSize   = 34
-
     figLOC=plt.figure(num=1, figsize=(HorizontalSize,VerticalSize))
     idsort = argsort(distances)
     
@@ -109,7 +148,7 @@ if 1:
         plt.ylim(0,1.1)
         plt.title('%4.1f km\n%4.1f$^{\mathrm{o}}$,%4.1f$^{\mathrm{o}}$,%4.1fm/s' %(distances[indic]/1000, azimuth0_deg, elevation0_deg, velocity0_mps))
     
-    figLOC.savefig('tt.pdf', facecolor = [1,1,0.92], format='pdf')
+#    figLOC.savefig('tt.pdf', facecolor = [1,1,0.92], format='pdf')
     #%%    
 #plt.figure(C)
 #for im in range(M):

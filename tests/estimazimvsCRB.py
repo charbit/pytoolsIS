@@ -29,8 +29,8 @@ class struct:
 
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
 
 from geoloc import extractstationlocations
 
@@ -183,8 +183,8 @@ for istation in range(llistIS):
                            evi.geolocs.Z_km])*1000.0;
         
         xsensors_m = xsensors_m - xsensors_m[0,:]
-        
         M = size(xsensors_m,0);
+        
         SOIdurationrange_s = dur0_sec * array([1.0, 1.0]);
         
         for iSNR0_dB in range(llistSNR0_dB):

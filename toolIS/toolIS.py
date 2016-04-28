@@ -435,10 +435,10 @@ def geneFF(Lsamples, N, xsensor_m, Fs_Hz, range_azimuth_deg,
     maxF2          = max(F2,1)
 
     return maxF2
-    
-    
-    
-    #==========================================================================
+
+
+#==========================================================================
+#==========================================================================
 def pvalunderH0IS(F, nu, N, xsensor_m, Fs_Hz, 
                 range_azimuth_deg, range_elevation_deg, range_velocity_mps):
     """
@@ -497,7 +497,8 @@ def pvalunderH0IS(F, nu, N, xsensor_m, Fs_Hz,
         
     return pval, integrand
  
-#==========================================================   
+#==========================================================================
+#==========================================================================
 def pareto_p(N,Q,pareto_a,pareto_m): # nu equals number of degrees of freedom
     """
     
@@ -510,8 +511,8 @@ def pareto_p(N,Q,pareto_a,pareto_m): # nu equals number of degrees of freedom
     return t
 
 
-#============================================================
-#=============================================================
+#==========================================================================
+#==========================================================================
 def UpsilonXi(xsensor_m, Fs_Hz, range_azimuth_deg, 
                   range_elevation_deg, range_velocity_mps):
     """
@@ -761,7 +762,8 @@ def estimSCP(x1,x2,Lfft,overlapFFT, Fs_Hz, smoothwindow):
     
     return frqsFFT_Hz, SDs11, SDs22, SDs12, MSC
     
-#==============================================================    
+#==========================================================================
+#==========================================================================
 def logMSCtheoGaussian(xsensor_m, 
    F_Hz,
    azimuth_deg,
@@ -810,7 +812,8 @@ def logMSCtheoGaussian(xsensor_m,
             
     return logMSC
     
-#================================================
+#==========================================================================
+#==========================================================================
 def generateISwithLOCgaussian(T_sec, Fs_Hz, xsensor_m,
                               azimuth0_deg,
                               elevation0_deg,
@@ -836,7 +839,8 @@ def generateISwithLOCgaussian(T_sec, Fs_Hz, xsensor_m,
     x    = x/Lruns
     return x
 
-#===================================================================
+#==========================================================================
+#==========================================================================
 def alignmentwrt1(signal,startindex,windowlength_samples, 
                   rate = 2, visu = 0):
     """
@@ -921,9 +925,10 @@ def alignmentwrt1(signal,startindex,windowlength_samples,
     xalign = resample(xalign,N);
     return xalign, tkl_pts
 
-#====================================================================
+#==========================================================================
+#==========================================================================
 def consistence(signal, rate=1, visu=0, corrflag = 0):
-#====================================================================
+
     """
 # Synopsis:
 #    consistence, tkl = consistence(signal, rate=1, visu=0, corrflag = 1)       
@@ -1017,9 +1022,11 @@ def consistence(signal, rate=1, visu=0, corrflag = 0):
     consistence = sqrt(consistence2/c3)
     return consistence, tkl
 
-#====================================================================
+#==========================================================================
+#==========================================================================
+
 def MCCM(signal, rate = 1, corrflag = 1):
-#=====================================================================
+
     """
 # Mean of Cross-Covariance Maximum
 #    synopsis: MCCM = MCCM(signal, rate = 1, corrflag = 1)
@@ -1088,8 +1095,8 @@ def MCCM(signal, rate = 1, corrflag = 1):
     MCCM = mean(max_corr)/rate;
     return MCCM, tkl/rate
 
-#=====================================================================
-#=====================================================================
+#==========================================================================
+#==========================================================================
 ##%
 #    listevents = {};    
 #    for ik in range(nb_events):
@@ -1118,7 +1125,8 @@ def MCCM(signal, rate = 1, corrflag = 1):
 #                )
 #        listevents[ik] = events
         
-#%%
+#==========================================================================
+#==========================================================================
 #def synthetizer(sensors, Fs_Hz, totalTime_s, nb_events, 
 #                         realSOI,realNOISE,SOIdurationrange_s, 
 #                         SOIfrequencywidth_Hz_Hz, SOISNRrange_dB, 
@@ -1738,16 +1746,15 @@ def synthetizer(sensors, SOI, LOC, SON,
 #    record.SOIonky    = SOIonly(1:nbsamples,:);
 #    record.events     = events(ikMAX);
 
-#=====================================================================
-#=====================================================================
-#=====================================================================
+#==========================================================================
+#==========================================================================
 #function [signal_withLOC, theta0_spm, Gamma2_epsilon] = 
 #    genelwwLOCwithoutdelay(one_signal,
 #    orderLPC,
 #    Fs_Hz, az_deg,el_deg, velocity_mps, Sigma_aec, xsensor_m)
 def genelwwLOCwithoutdelay(one_signal, orderLPC,
     Fs_Hz, az_deg,el_deg, velocity_mps, Sigma_aec, xsensors_m):
-#=====================================================================
+
 # generate loss of coherence with noise
 # signal_out = generateCoherenceN( 
 #     duration_s, Fs_Hz, aec, sigmaaec, xsensor_m)
@@ -1869,13 +1876,14 @@ def genelwwLOCwithoutdelay(one_signal, orderLPC,
 # Fmax_Hz = 5;
 # [bb,aa] = butter(4,2*[Fmin_Hz Fmax_Hz]/Fs_Hz);
 # sigOUT = filter(bb,aa,sigIN);
-#=====================================================================
 
-#===============================================
+
+#==========================================================================
+#==========================================================================
 #    function [pz, meanpz, varpz] = ...
 #    asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
 def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
-#====================================================
+
 # Asymptotic probability density function (PDF)
 # of the Falpha-score:
 #
@@ -1901,6 +1909,8 @@ def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
 #======
 # Inputs:
 #    - f : F-alpha value
+#    - alpha in (0,1), for alpha=0.5 we have the 
+#            so-called more classical F-score
 #    - N1 : number of positive data
 #    - m0bar : mean of the FP, typically N0-N0*pi_0
 #    - m1 : mean of the TP, typically N1*pi_1
@@ -1974,11 +1984,12 @@ def asympdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
         pzb     = aux1 * (2.0 * norm.cdf(uz / tz)-1.0) + aux3 / aux2;
         pz      = pzb / (f ** 2);
     return pz
-#====================================================
+#==========================================================================
+#==========================================================================
 #function [pz, meanpz, varpz] = ...
 #    asymPrecision(u,m0bar,m1,sigma20,sigma21)
 def asymPrecision(f,m0,m1,sigma20,sigma21):
-#====================================================
+
 # Asymptotic probability density function (PDF)
 # of the Precision:
 #      Precision = TP/(TP+FP)
@@ -2022,10 +2033,11 @@ def asymPrecision(f,m0,m1,sigma20,sigma21):
     f=float(f)
  
     pz = asympdfPrecision(f,m0,m1,sigma20,sigma21);
-    infini = 1000;
+
+    quasiinfini = 2.0*max(sqrt([sigma20,sigma21])) ;
     
-    meanpz, bid = quad(xpdfPrecision, -infini,infini, args = (m0,m1,sigma20,sigma21));
-    m2pz, bid = quad(x2pdfPrecision, -infini,infini, args = (m0,m1,sigma20,sigma21));
+    meanpz, bid = quad(xpdfPrecision, -quasiinfini,quasiinfini, args = (m0,m1,sigma20,sigma21));
+    m2pz, bid = quad(x2pdfPrecision, -quasiinfini,quasiinfini, args = (m0,m1,sigma20,sigma21));
     
     varpz  = m2pz-meanpz**2;
     
@@ -2039,7 +2051,8 @@ def x2pdfPrecision(f,m0,m1,sigma20,sigma21):
     x2pdf = f2 * asympdfPrecision(f,m0,m1,sigma20,sigma21)
     return x2pdf
     
-#===============================================================
+#==========================================================================
+#==========================================================================
 def asympdfPrecision(u,m0,m1,sigma20,sigma21):
     
     m0=float(m0)
@@ -2072,11 +2085,12 @@ def asympdfPrecision(u,m0,m1,sigma20,sigma21):
         pzb  = aux1 * (2*norm.cdf(uz / tz)-1) + d / aux2;
         pz   = pzb / (u ** 2);
     return pz
-#===============================================================
+#==========================================================================
+#==========================================================================
 #function [pz, meanpz, varpz] = ...
 #    asymRecall(r,N1,m1,sigma21)
 def asymRecall(r,N1,m1,sigma21):
-#===============================================================
+
 # Asymptotic probability density function (PDF)
 # of the Recall:
 #   Recall = TP/(TP+FN) = TP/N1
@@ -2111,8 +2125,11 @@ def asymRecall(r,N1,m1,sigma21):
     meanpz = m1/N1;
     varpz = sz;
     return pz, meanpz, varpz
-#===============================================================
-def rocauc(valH0, valH1, alpha_percent, nbbins=20, nbboot=300, scale='log'):
+
+#==========================================================================
+#==========================================================================
+def rocauc(valH0, valH1, ci_percent, nbbins=20, 
+           nbboot=300, scale='log'):
     """
     Performs the roc curve of two sequences and the area under
     the roc (auc)
@@ -2123,7 +2140,7 @@ def rocauc(valH0, valH1, alpha_percent, nbbins=20, nbboot=300, scale='log'):
     synopsis:
     alpha, beta, CIalpha, CIbeta, eauc, std_eauc_exp, 
               std_eauc_boot = 
-              rocauc(valH0, valH1, alpha_percent, 
+              rocauc(valH0, valH1, ci_percent, 
               nbbins=20, nbboot=300)
     """  
     N0 = len(valH0);
@@ -2141,22 +2158,22 @@ def rocauc(valH0, valH1, alpha_percent, nbbins=20, nbboot=300, scale='log'):
         beta[i] = float(sum(valH1>ranges[i]))/N1;
 
     #== CI from the binomial variance
-    calpha       = norm.ppf(1.0-(1.0-alpha_percent/100.0)/2.0);
-    calpha2      = calpha*calpha;
+    cci       = norm.ppf(1.0-(1.0-ci_percent/100.0)/2.0);
+    cci2      = cci*cci;
     
     CIalpha      = zeros([nbbins,2])
     CIbeta       = zeros([nbbins,2])
-    aux0         = calpha*sqrt((alpha * (1.0-alpha))/N0\
-               +calpha2/4.0/N0/N0);
-    den0         = 1/(1+calpha2/N0);
-    CIalpha[:,0] = (alpha + (calpha2/2.0/N0)-aux0)*den0;
-    CIalpha[:,1] = (alpha + (calpha2/2.0/N0)+aux0)*den0;
+    aux0         = cci*sqrt((alpha * (1.0-alpha))/N0\
+               +cci2/4.0/N0/N0);
+    den0         = 1/(1+cci2/N0);
+    CIalpha[:,0] = (alpha + (cci2/2.0/N0)-aux0)*den0;
+    CIalpha[:,1] = (alpha + (cci2/2.0/N0)+aux0)*den0;
     
-    aux1         = calpha*sqrt((beta * (1.0-beta))/N1 \
-             +calpha2/4.0/N1/N1);
-    den1         = 1/(1+calpha2/N1);
-    CIbeta[:,0]  = (beta + calpha2/2.0/N1-aux1)*den1;
-    CIbeta[:,1]  = (beta + calpha2/2.0/N1+aux1)*den1;
+    aux1         = cci*sqrt((beta * (1.0-beta))/N1 \
+             +cci2/4.0/N1/N1);
+    den1         = 1/(1+cci2/N1);
+    CIbeta[:,0]  = (beta + cci2/2.0/N1-aux1)*den1;
+    CIbeta[:,1]  = (beta + cci2/2.0/N1+aux1)*den1;
 
     eauc = aucW(valH0,valH1)
     
@@ -2178,7 +2195,10 @@ def rocauc(valH0, valH1, alpha_percent, nbbins=20, nbboot=300, scale='log'):
     
     return alpha, beta, CIalpha, CIbeta, eauc, std_eauc_exp, \
                std_eauc_boot
-#===============================================================
+
+
+#==========================================================================
+#==========================================================================
 def aucW(valH0,valH1):
     
     N0 = len(valH0);
@@ -2194,7 +2214,8 @@ def aucW(valH0,valH1):
     W = float(W)/(N0*N1);
     return W
 
-#===============================================================
+#==========================================================================
+#==========================================================================
 def evalCRBwithgaussianLOC(xsensors_m, sigma2noise, aec, std_aec, 
                            duration_sec, Fs_Hz):
     
@@ -2352,7 +2373,8 @@ def evalCRBwithgaussianLOC(xsensors_m, sigma2noise, aec, std_aec,
         C0 = C
     return CRB, Jacobav, C0
 
-#========================================
+#==========================================================================
+#==========================================================================
 def CRBonazimuthonlywithoutLOC(xsensors_m, sigma2noise, aec,
                            duration_sec, Fs_Hz):
                                
@@ -2408,3 +2430,4 @@ def CRBonazimuthonlywithoutLOC(xsensors_m, sigma2noise, aec,
         
     CRBaz = real(1.0 / FIM)    
     return CRBaz
+#==========================================================================
