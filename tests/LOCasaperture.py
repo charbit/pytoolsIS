@@ -143,7 +143,7 @@ for station in listIS:
             #plt.title('station : %s, M = %i'%(station,M))
             
             #%%
-        dirsavefigures = '/Users/maurice/etudes/stephenA/propal2/figures/'
+        dirsavefigures = '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/propalSA/'
         HorizontalSize = 5
         VerticalSize   = 3
         for LOCflag in (0,1):
@@ -155,10 +155,10 @@ for station in listIS:
             plt.ylabel('mean of STD - degree',fontsize=10)
             plt.grid()    
             if LOCflag:
-                plt.title('with LOC')
+                plt.title('Station %s with LOC'%station)
                 plt.show()
             else:
-                plt.title('witouth LOC')      
+                plt.title('Station %s without LOC'%station)
                 plt.show()
             figmeanstdaz.savefig(dirsavefigures + \
                  'CRBstdLOCasXfcactorLOC%i%s.pdf'%(LOCflag,station))
