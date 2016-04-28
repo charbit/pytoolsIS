@@ -3,6 +3,12 @@
 Created on Wed Apr 27 21:45:55 2016
 
 @author: maurice
+
+#=================================
+Synopsis:
+This program displays the number of sensors for the IMS network
+It also determines co-located sensors.
+#=================================
 """
 
 class struct:
@@ -39,6 +45,8 @@ listIS = ('I02','I04','I05','I06','I07','I08','I09',
      'I43','I44','I45','I46','I47','I48','I49','I50',
      'I51','I52','I53','I55','I56','I57','I58','I59')
 
+distancemin_m = 2.0
+
 listISdis=list()
 llistIS = len(listIS)
 for istation in range(llistIS):
@@ -67,9 +75,9 @@ for istation in range(llistIS):
             distance[cp,0] = sqrt(dot(vaux.reshape(1,3), vaux.reshape(3,1)))
             distance[cp,1] = im
             distance[cp,2] = imp
-            if distance[cp,0]<10:
+            if distance[cp,0]<distancemin_m:
                 distance[cp,3] = '1'
-                print '\tsensor pair colocated:(%i,%i)'%(im,imp)                
+                print '\tsensor pair colocated at less than %2.1f meter:(%i,%i)'%(distancemin_m, im,imp)                
             cp=cp+1
      
     aux = struct(name=station,nbsensors=M,distance=distance)

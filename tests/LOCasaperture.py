@@ -10,13 +10,21 @@ Created on Sun Apr 17 07:35:28 2016
 Created on Wed Apr 13 18:28:09 2016
 
 @author: maurice
+#============================================
+Compute the CRB as a functionn of the azimuth.
+We consider that the full slowness vector is unknown and the 
+two following scenarios:
+   - without LOC
+   - with LOC
+#============================================
+
 """
+
 
 class struct:
      def __init__(self, **kwds):
          self.__dict__.update(kwds)
-         
-         
+               
 import sys
 sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
 sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
@@ -30,18 +38,7 @@ from numpy import random, mean, std, sum, log10
 from numpy import zeros, dot, diag, cos, sin, sqrt, linspace, logspace
 from matplotlib import pyplot as plt
 
-#listIS = ('I02','I04','I05','I06','I07','I08','I09',
-#     'I10','I11','I13','I14','I17','I18','I19','I21',
-#     'I23','I24','I26','I27','I30','I31','I32','I33',
-#     'I34','I35','I36','I37','I39','I40','I41','I42',
-#     'I43','I44','I45','I46','I47','I48','I49','I50',
-#     'I51','I52','I53','I55','I56','I57','I58','I59')
 
-#listIS = ('I27','I30','I31','I32','I33',
-#     'I34','I35','I36','I37','I39','I40','I41','I42',
-#     'I43','I44','I45','I46','I47','I48','I49','I50',
-#     'I51','I52','I53','I55','I56','I57','I58','I59')
-#
 listIS = ('I31',)
 
 llist = len(listIS)
@@ -101,7 +98,7 @@ for station in listIS:
                 xsensors_iap_m = xsensors_m_centered*listapertureXfactor[iap]
                 for ia in range(La):
                     aec.a_deg = listazimuth[ia];
-                    CRB, Jacobav_k = evalCRBwithgaussianLOC(xsensors_iap_m, 
+                    CRB, Jacobav_k, C0 = evalCRBwithgaussianLOC(xsensors_iap_m, 
                                 sigma2noise, aec, std_aec,  T_sec , Fs_Hz)
                     sigmaa_deg[ia,iap] = sqrt(CRB.aec[0,0])*180/pi
                     sigmav_mps[ia,iap] = sqrt(CRB.av[1,1])

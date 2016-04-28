@@ -10,6 +10,17 @@ Created on Thu Apr 14 13:25:11 2016
 Created on Mon Feb 15 18:26:22 2016
 
 @author: maurice
+#=================================
+Synopsis:
+This program performs the theoretical STD from the CRB and compare to the 
+experimental STD obtianed by simulation. It could be called as a function by
+the program "multirunsestimAZvsCRB.py". In this case the estimation is only 
+on the azimuth, therefore the CRB must be performed by the module
+"CRBonazimuthonlywithoutLOC".
+
+To know features on the stations, run first "liststations.py"
+
+#=================================
 """
  
 class struct:

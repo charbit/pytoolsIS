@@ -5,7 +5,8 @@ Created on Wed Apr 27 07:55:28 2016
 @author: maurice
 
 #===========================
-# This program launches the program 'estimazimvsCRB.py'
+# This program usually sets a few parameters and
+  calls the program 'estimazimvsCRB.py'
 #===========================
 """
 

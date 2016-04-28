@@ -3,27 +3,20 @@
 Created on Sun Feb  7 18:17:32 2016
 
 @author: maurice
+
+#================================= 
+Synopsis:
+This program performs the statistic under H0 of the
+following functions of test:
+    - Fisher
+    - Fstat
+It also computes the true distribution
+    - for Fisher, it is a F with N,N(M-1) dof
+    - for Fstat, we have no closed form
+      expression but we use Monte-Carlo
+      approach.
+#================================= 
 """
-
-
-#corrXidistributionclosevalues.pdf
-#Theta_{1}
-#
-#corrXidistributionfarvalues.pdf
-#Theta_{2}
-#
-#simul0.pdf
-#Theta_{0}
-
-#simul1.pdf
-#Theta_{1}
-
-#simul2.pdf
-#Theta_{2}
-#
-#
-#distribFoTunderH0.pdf
-#Theta_{2}
 
 class struct:
      def __init__(self, **kwds):
@@ -163,9 +156,10 @@ pdffromFind = Q * pdffromF * (f.cdf(linx,nu1,nu2)**(Q-1));
 pdffromGind = Q * norm.pdf(linx,1.0,sigmaGlim) * (norm.cdf(linx,1.0,sigmaGlim)**(Q-1));
 
 
-
 dirfigsave = '/Users/maurice/etudes/stephenA/propal2/figures/'
-#%% not used
+
+#%%
+#
 #HorizontalSize = 6
 #VerticalSize   = 6
 #figpvalFoT     = plt.figure(num=1,figsize=(HorizontalSize,VerticalSize), 
@@ -210,10 +204,6 @@ dirfigsave = '/Users/maurice/etudes/stephenA/propal2/figures/'
 
 #%%
 ##================= compute the histograms
-
-
-
-
 HorizontalSize = 10
 VerticalSize   = 4
 

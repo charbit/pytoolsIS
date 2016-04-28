@@ -7,12 +7,12 @@ for no LOC and LOC signals
 Under H0 we have only noise
 Under H1 we use the function "synthetizer"
      without and with LOC
-     the true azimut is randomly chosen
+     the true azimuth is randomly chosen
 The maximization on Fstat is only w.r.t. the azimuth over
 the range "range_azimuth_deg"
 
-this program calls the proogram 
-           "execfile('testrocauc.py')"
+this program usually calls the program 
+           "execfile('rocauc4noLOCLOC.py')"
 
 @author: maurice
 """
@@ -43,14 +43,14 @@ figrocauc = plt.figure(num=2,figsize=(HorizontalSize,VerticalSize), edgecolor='k
 figrocauc.clf()
 
 flag_LOC = 0;
-execfile('testrocauc.py')
+execfile('rocauc4noLOCLOC.py')
 a0 = a;
 b0 = b;
 eauc0 = eauc
 std_eauc_boot0=std_eauc_boot
 
 flag_LOC = 1;
-execfile('testrocauc.py')
+execfile('rocauc4noLOCLOC.py')
 a1 = a;
 b1 = b;
 eauc1 = eauc

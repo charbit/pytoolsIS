@@ -12,6 +12,12 @@ The maximization on Fstat is only w.r.t. the azimuth over
 the range "range_azimuth_deg"
 
 @author: maurice
+
+Synopsis:
+This program performs the ROC curves for the Fstat function
+of test without/with LOC
+
+
 """
 import sys
 sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/progspy/toolbenchmark')

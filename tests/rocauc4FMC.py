@@ -10,6 +10,14 @@ Created on Fri Mar 25 16:22:47 2016
 Created on Mon Feb 15 18:26:22 2016
 
 @author: maurice
+
+Synopsis:
+This program performs the ROC curves for the
+3 following functions of test:
+   - Fstat
+   - MCCM
+   - consistence
+
 """
 class struct:
      def __init__(self, **kwds):
