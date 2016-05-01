@@ -23,8 +23,8 @@ class struct:
          self.__dict__.update(kwds)
          
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
 
 from geoloc import extractstationlocations
 from toolIS import evalCRBwithgaussianLOC,maxfstat, UpsilonXi, geneFZ, geneFF
@@ -103,14 +103,14 @@ for i in range(Q):
 print sum(Xivalues==1), cQ
 
 #%
-#HorizontalSize = 6
-#VerticalSize   = 4
-#
-#fighistmat = plt.figure(num=8,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92])
-#hbinsXivalues, binsXivalues, patches = plt.hist(Xivalues, bins=30, normed=0, facecolor='g', alpha=0.2)
-#
-#plt.plot(binsXivalues[0:30]+(binsXivalues[1]-binsXivalues[0])/2, hbinsXivalues,'o')
-#plt.grid()
+HorizontalSize = 6
+VerticalSize   = 4
+
+fighistmat = plt.figure(num=8,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92])
+hbinsXivalues, binsXivalues, patches = plt.hist(Xivalues, bins=30, normed=0, facecolor='g', alpha=0.2)
+
+plt.plot(binsXivalues[0:30]+(binsXivalues[1]-binsXivalues[0])/2, hbinsXivalues,'o')
+plt.grid()
 
 #if Q==1:
 #    plt.savefig(dirsavefigures + 'corrXidistributionclosevalues.pdf')
@@ -222,7 +222,7 @@ plt.ylabel("Frequency")
 plt.xlim(0.8,1.3)
 plt.ylim(0,15)
 plt.title("Asymptotic distribution")    
-   
+
 #plt.subplot(3,1,3)
 #n, bins, patches = plt.hist(maxFZ, bins=10, normed=1, facecolor='g', alpha=0.2)
 #plt.plot(linx,pdffromGind, color='r')

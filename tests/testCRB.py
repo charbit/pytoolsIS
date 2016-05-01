@@ -10,8 +10,10 @@ class struct:
          self.__dict__.update(kwds)
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
+
+from toolIS import *
 
 from geoloc import extractstationlocations
 
@@ -71,13 +73,19 @@ print tt
 
 
 #%%
-HorizontalSize = 3
-VerticalSize   = 3
+HorizontalSize = 4
+VerticalSize   = 4
 
-figSTDasSNR=plt.figure(num=1,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92]);
+plt.close()
+
+figSTDasSNR=plt.figure(num='CRB',figsize=(HorizontalSize,VerticalSize), 
+                       edgecolor='k', facecolor = [1,1,0.92]);
+figSTDasSNR.clf()
+
 rhoax0 = (sigmaa_deg[:,0]) * cos(listazimuth*pi/180)
 rhoay0 = (sigmaa_deg[:,0]) * sin(listazimuth*pi/180)
 plt.plot(rhoax0,rhoay0,'b', label='without LOC')
+
 plt.hold('True')
 rhoax1 = (sigmaa_deg[:,1]) * cos(listazimuth*pi/180)
 rhoay1 = (sigmaa_deg[:,1]) * sin(listazimuth*pi/180)
@@ -87,14 +95,19 @@ plt.legend(loc='best',fontsize=8)
 plt.axis('square')
 #plt.xticks(arange(-0.3,0.31,0.2))
 #plt.yticks(arange(-0.3,0.31,0.2))
-plt.xlabel('azimuth STD - degree',fontsize=8)
-plt.ylabel('azimuth STD - degree',fontsize=8)
+plt.xlabel('azimuth STD - degree',fontsize=8,family='times')
+plt.ylabel('azimuth STD - degree',fontsize=8,family='times')
+
+plt.xticks( family = 'times',fontsize=8 )
+plt.yticks( family = 'times',fontsize=8 )
+
 ax=plt.gca()
 ax.yaxis.set_label_position('right')
 #plt.axis('square')
-plt.grid()
+plt.grid('on')
+plt.show()
 if 0:
-    dirsavefigures = '/Users/maurice/etudes/stephenA/propal2/figures/'
+    dirsavefigures = '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/propalSA/figures/'
     figSTDasSNR.savefig(dirsavefigures + 'CRBonazimut.pdf')
 #=======================
 #figvitesse=plt.figure(num=2,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92]);
