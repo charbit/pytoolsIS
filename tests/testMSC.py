@@ -10,10 +10,21 @@ Created on Mon Apr  4 21:25:57 2016
 #
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+class struct:
+     def __init__(self, **kwds):
+         self.__dict__.update(kwds)
 
-from invcumulMSC import *
+import sys
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolcalibration')
+
+from geoloc import extractstationlocations
+
+from invcumulMSC import invcumulFunctionMSC
+from toolIS import maxfstat, synthetizer
+from toolIS import evalCRBwithgaussianLOC, CRBonazimuthonlywithoutLOC
+
 from numpy import linspace, zeros, array, ones, arange
 
 from matplotlib import pyplot as plt

@@ -31,8 +31,8 @@ sigma2noise = (10**(-SNR_dB/10.0));
 listazimuth = linspace(0,360,60)
 aec = struct(e_deg = 70.0, c_mps = 340.0)
 stdaec0 = struct(a_deg = 5.0, e_deg = 3.0, c_mps = 13.0)
-station = 'I31'
 
+station = 'I31'
 sensors = extractstationlocations(station, ReferenceEllipsoid=23)
 nbsensors = len(sensors)
 xsensors_m = zeros([nbsensors,3])
