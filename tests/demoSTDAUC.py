@@ -46,7 +46,7 @@ from statsmodels.regression import yule_walker
 from time import sleep
 from matplotlib import pyplot as plt
 
-from toolIS import asymPrecision, asymFalpha, asymRecall, rocauc
+from toolIS import asymptoticPrecision, asymptoticFalpha, asymptoticRecall, rocauc
 
 Lruns = 1;
 stdauc_exp = zeros(Lruns);
@@ -78,18 +78,22 @@ for ir in range(LrunsMC):
     aucsMC[ir] = eauc;
     
 stdauc_MC = std(aucsMC);
-##
+#%%
+HorizontalSize = 8;
+VerticalSize   = 8;
+plt.close()
+figSTDauc=plt.figure(num=1,figsize=(HorizontalSize,VerticalSize),                        edgecolor='k', facecolor = [1,1,0.92]);
+figSTDauc.clf()
+
 if Lruns>1:
-    plt.plot(std_eauc_exp,'.-b')
+    plt.plot(std_eauc_exp,'.-b',label='Analytical expression')
     plt.hold('True')
-    plt.plot(std_eauc_boot,'.-r')
-    plt.plot((1, Lruns),stdauc_MC*ones(2),'.-k')
+    plt.plot(std_eauc_boot,'.-r',label='Bootstrap')
+    plt.plot((1, Lruns),stdauc_MC*ones(2),'.-k',label='Monte-Carlo')
     plt.hold('False')
-    plt.legend('Analytical expression','Bootstrap','Monte-Carlo')
+    plt.legend()
     plt.grid()
     
-    HorizontalSize = 12;
-    VerticalSize   = 10;
 else:
     print('MC std on %i runs: %5.4f\nEXP std : %5.4f\nBOOT std on %i resamples: %5.4f\n'% \
         (LrunsMC,stdauc_MC,std_eauc_exp,B,std_eauc_boot));

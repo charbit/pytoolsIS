@@ -6,17 +6,12 @@ Created on Mon Feb 15 18:26:22 2016
 """
 
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
-
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
 
 from geoloc import extractstationlocations
-
-from toolIS import *
-from geoloc import extractstationlocations
-
-from toolIS import maxfstat, synthetizer
-from toolIS import evalCRBwithgaussianLOC
+from toolIS import evalCRBwithgaussianLOC,maxfstat, UpsilonXi, geneFZ, geneFF
+from toolIS import pvalunderH0, asymptoticFalpha, synthetizer
 
 
 class struct:
@@ -231,9 +226,11 @@ indexdistance   = indexdistance[argsortdistance]
 
 #%%
 HorizontalSize = 8
-VerticalSize   = 20
+VerticalSize   = 8
 
+plt.close()
 figpdfsoi = plt.figure(num=1,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92]);
+figpdfsoi.clf()
 
 Lfft = 512;
 frqs_Hz = array(range(Lfft))*SOIFs_Hz/Lfft;
@@ -280,10 +277,12 @@ for ik in range(SOInb_events):
 #        plt.semilogy(frqs_Hz,MSCtheo[argsortdistance[cp],:])
 #        plt.semilogy(frqs_Hz,exp(logMSCtheobis[:,argsortdistance[cp]]),'r')
         tt="d = %.0f m"% distance[argsortdistance[cp]]
-        plt.title(tt)
+        plt.title(tt,fontsize=8)
         plt.xlim([0.0, SOIFs_Hz/2])
+        plt.xlabel('frequency - Hz',fontsize=8)
+        plt.xticks(fontsize=8)
         plt.ylim([0.01,1])
-        
+        plt.yticks(fontsize=8)
 
     xextract = oo[int(id00):int(id01),:];
     xx=xextract[0:1999,:]

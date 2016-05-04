@@ -15,10 +15,10 @@ sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolut
 
 from geoloc import extractstationlocations
 from toolIS import evalCRBwithgaussianLOC,maxfstat, UpsilonXi, geneFZ, geneFF
-from toolIS import pvalunderH0, asymFalpha
+from toolIS import pvalunderH0, asymptoticFalpha
 
 
-from numpy import mean,std
+from numpy import mean,std, zeros
 from scipy import random
 
 
@@ -36,8 +36,8 @@ N1=200
 m1=N1*p1
 sigma21=p1*(1-p1)*N1
 
-alpha=0.1
-Lruns = 300
+alpha=0.2
+Lruns = 3000
 F=zeros(Lruns)
 for ir in range(Lruns):
     X0=random.rand(N0,1)<p0
@@ -50,8 +50,8 @@ for ir in range(Lruns):
     precision = TP/(TP+FP)
     Fm1=alpha/precision+(1-alpha)/recall
     F[ir]=1.0/Fm1
-f = 0.1    
-pz, meanpz, varpz=asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
+
+meanpz, varpz, pz = asymptoticFalpha(alpha,N1,m0,m1,sigma20,sigma21,x=0.1)
 
 print [meanpz, mean(F)]
 

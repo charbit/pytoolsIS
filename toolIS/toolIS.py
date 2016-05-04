@@ -901,9 +901,11 @@ def alignmentwrt1(signal,startindex,windowlength_samples,
                 parabole[ip] = \
                 dot(array([1, xpar[ip], xpar[ip] ** 2]),alphakl);
             HorizontalSize = 8
-            VerticalSize   = 4
-            
-            plt.figure(num=1, figsize=(HorizontalSize,VerticalSize))
+            VerticalSize   = 4    
+            plt.figure(num='cormax',figsize=(HorizontalSize,VerticalSize), 
+                                     edgecolor='k', facecolor = [1,1,0.92]);
+
+            plt.subplot(M-1,1,ks)
             plt.plot(corkl, '.-')
             plt.hold('True')
 #                  plt.plot(N-tkl[idC]-1, max_corr[idC], 'or')
@@ -912,6 +914,8 @@ def alignmentwrt1(signal,startindex,windowlength_samples,
             plt.plot(960*array([1.0, 1.0]),array([-0.2, 0.5]),':k')
             
             plt.xlim(indmaxkl+array([-3, 3]));
+            plt.xticks(fontsize=8)
+            plt.yticks([])
             plt.hold('False')
             plt.show()
 
@@ -1881,8 +1885,8 @@ def genelwwLOCwithoutdelay(one_signal, orderLPC,
 #==========================================================================
 #==========================================================================
 #    function [pz, meanpz, varpz] = ...
-#    asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
-def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
+#    asymptoticFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
+def asymptoticFalpha(alpha,N1,m0,m1,sigma20,sigma21, x=0):
 
 # Asymptotic probability density function (PDF)
 # of the Falpha-score:
@@ -1903,12 +1907,11 @@ def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
 #      FN = N1-sum_k Y_1(k)
 #======
 # Synopsis:
-#  pz,mean1Fscoreth, sigma2Fscoreth = ...
-#    asymFscore(f,N1,m0bar,m1,sigma20,sigma21)
+#  mean1Fscoreth, sigma2Fscoreth, pz = ...
+#    asymptoticFalpha(alpha,N1,m0,m1,sigma20,sigma21,f=0)
 #
 #======
 # Inputs:
-#    - f : F-alpha value
 #    - alpha in (0,1), for alpha=0.5 we have the 
 #            so-called more classical F-score
 #    - N1 : number of positive data
@@ -1918,11 +1921,12 @@ def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
 #             typically N0*pi_0(1-pi_0)
 #    - sigma21 : variance of the TP, 
 #             typically N1*pi_1(1-pi_1)
+#    - x: a current value
 #======
 # Outputs
-#    - value of the PDF
 #    - meanpz : mean
 #    - varpz : variance
+#    - pz : value of the PDF in x
 #======
 # used functions
 #    - INTEGRAL not available on R2011 replaced by
@@ -1932,47 +1936,47 @@ def asymFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
     m1=float(m1)
     sigma20=float(sigma20)
     sigma21=float(sigma21)
-    f=float(f)
+    x=float(x)
 
-    pz = asympdfFalpha(f, alpha, N1, m0,m1,sigma20,sigma21);
+    pz = asymptoticpdfFalpha(x, alpha, N1, m0,m1,sigma20,sigma21);
 #==========
     infini = inf;
 #==========
     meanpz, bid = quad(xpdfFalpha, -infini,infini, args = (alpha,N1,m0,m1,sigma20,sigma21));
     m2pz, bid = quad(x2pdfFalpha, -infini,infini, args = (alpha,N1,m0,m1,sigma20,sigma21));
     varpz  = m2pz-meanpz**2;
-    return pz, meanpz, varpz
+    return meanpz, varpz, pz
     
 def xpdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
-    xpdf = f * asympdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
+    xpdf = f * asymptoticpdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
     return xpdf
 def x2pdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
     f2 = f**2
-    x2pdf = f2 * asympdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
+    x2pdf = f2 * asymptoticpdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21)
     return x2pdf
 #====================================================
-#function pz = asympdfFalpha(f,alpha,N1,m0,m1, ...
+#function pz = asymptoticpdfFalpha(f,alpha,N1,m0,m1, ...
 #    sigma20,sigma21)
-def asympdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
+def asymptoticpdfFalpha(x,alpha,N1,m0,m1,sigma20,sigma21):
     m0=float(m0)
     m1=float(m1)
     sigma20=float(sigma20)
     sigma21=float(sigma21)
-    f=float(f)
+    x=float(x)
     
     ma      = (1.0-alpha)*N1+alpha*m0;
     sigma2a = alpha*alpha*sigma20;
     sigmaa  = sqrt(sigma2a);
     sigma1  = sqrt(sigma21);
-    if f==0:
-        uont     = ma/sigmaa
-        c2uvont3 = sigma2a*uont * exp(-(m1*m1)/2.0/sigma21)
-        aux1     = (c2uvont3/sigmaa/sigma1/sqrt(2.0*pi))*(2.0*norm.cdf(uont)-1.0);
+    if x==0:
+        xont     = ma/sigmaa
+        c2uvont3 = sigma2a*xont * exp(-(m1*m1)/2.0/sigma21)
+        aux1     = (c2uvont3/sigmaa/sigma1/sqrt(2.0*pi))*(2.0*norm.cdf(xont)-1.0);
         aux2     = exp(-ma*ma/sigma2a/2.0-m1*m1/sigma21/2.0);
         aux3     = aux2*sigmaa/pi/sigma1        
         pz       = aux1+aux3
     else:
-        z       = (1.0 / f) - alpha;
+        z       = (1.0 / x) - alpha;
         tz      = sqrt((z * z)/sigma2a+1.0/sigma21);
         uz      = ma*z/sigma2a+m1/sigma21;
         vz      = exp(0.5*(uz * uz) / (tz * tz)-ma*ma/sigma2a/2-m1*m1/sigma21/2.0);
@@ -1982,13 +1986,13 @@ def asympdfFalpha(f,alpha,N1,m0,m1,sigma20,sigma21):
         aux2    = pi * sqrt(sigma2a*sigma21) * (tz * tz);
         aux3    = exp(-ma*ma/sigma2a/2.0-m1*m1/sigma21/2.0);
         pzb     = aux1 * (2.0 * norm.cdf(uz / tz)-1.0) + aux3 / aux2;
-        pz      = pzb / (f ** 2);
+        pz      = pzb / (x ** 2);
     return pz
 #==========================================================================
 #==========================================================================
 #function [pz, meanpz, varpz] = ...
-#    asymPrecision(u,m0bar,m1,sigma20,sigma21)
-def asymPrecision(f,m0,m1,sigma20,sigma21):
+#    asymptoticPrecision(u,m0bar,m1,sigma20,sigma21)
+def asymptoticPrecision(m0,m1,sigma20,sigma21, x=0):
 
 # Asymptotic probability density function (PDF)
 # of the Precision:
@@ -2003,8 +2007,8 @@ def asymPrecision(f,m0,m1,sigma20,sigma21):
 #      FP = N0-sum_k Y_0(k)
 #======
 # Synopsis:
-#  [pz, meanpz, varpz] = ...
-#     asympdfPrecision(u,m0bar,m1,sigma20,sigma21)
+#  meanpz, varpz, pz = ...
+#     asymptoticpdfPrecision(m0bar,m1,sigma20,sigma21,x=0)
 #
 #======
 # Inputs:
@@ -2030,30 +2034,32 @@ def asymPrecision(f,m0,m1,sigma20,sigma21):
     m1=float(m1)
     sigma20=float(sigma20)
     sigma21=float(sigma21)
-    f=float(f)
+    x=float(x)
  
-    pz = asympdfPrecision(f,m0,m1,sigma20,sigma21);
+    pz = asymptoticpdfPrecision(m0,m1,sigma20,sigma21,x);
 
     quasiinfini = 2.0*max(sqrt([sigma20,sigma21])) ;
     
-    meanpz, bid = quad(xpdfPrecision, -quasiinfini,quasiinfini, args = (m0,m1,sigma20,sigma21));
-    m2pz, bid = quad(x2pdfPrecision, -quasiinfini,quasiinfini, args = (m0,m1,sigma20,sigma21));
+    meanpz, bid = quad(xpdfPrecision, -quasiinfini,quasiinfini, 
+                       args = (m0,m1,sigma20,sigma21));
+    m2pz, bid = quad(x2pdfPrecision, -quasiinfini,quasiinfini, 
+                       args = (m0,m1,sigma20,sigma21));
     
     varpz  = m2pz-meanpz**2;
     
     return pz, meanpz, varpz
     
-def xpdfPrecision(f,m0,m1,sigma20,sigma21):
-    xpdf = f * asympdfPrecision(f,m0,m1,sigma20,sigma21)
+def xpdfPrecision(x,m0,m1,sigma20,sigma21):
+    xpdf = x * asymptoticpdfPrecision(x,m0,m1,sigma20,sigma21)
     return xpdf
-def x2pdfPrecision(f,m0,m1,sigma20,sigma21):
-    f2 = f**2
-    x2pdf = f2 * asympdfPrecision(f,m0,m1,sigma20,sigma21)
+def x2pdfPrecision(x,m0,m1,sigma20,sigma21):
+    x2 = x**2
+    x2pdf = x2 * asymptoticpdfPrecision(x,m0,m1,sigma20,sigma21)
     return x2pdf
     
 #==========================================================================
 #==========================================================================
-def asympdfPrecision(u,m0,m1,sigma20,sigma21):
+def asymptoticpdfPrecision(m0,m1,sigma20,sigma21,x=0):
     
     m0=float(m0)
     m1=float(m1)
@@ -2061,17 +2067,17 @@ def asympdfPrecision(u,m0,m1,sigma20,sigma21):
     sigma0 = sqrt(sigma20)
     sigma21=float(sigma21)
     sigma1 = sqrt(sigma21)
-    u=float(u)
+    x=float(x)
     
-    if u==0:
-        uont     = m0/sigma0
-        c2uvont3 = sigma20*uont * exp(-(m1*m1)/2.0/sigma21)
-        aux1     = (c2uvont3/sigma0/sigma1/sqrt(2.0*pi))*(2.0*norm.cdf(uont)-1.0);
+    if x==0:
+        xont     = m0/sigma0
+        c2uvont3 = sigma20*xont * exp(-(m1*m1)/2.0/sigma21)
+        aux1     = (c2uvont3/sigma0/sigma1/sqrt(2.0*pi))*(2.0*norm.cdf(xont)-1.0);
         aux2     = exp(-m0*m0/sigma20/2.0-m1*m1/sigma21/2.0);
         aux3     = aux2*sigma0/pi/sigma1   
         pz       = aux1+aux3
     else:
-        z  = (1 / u) - 1;
+        z  = (1 / x) - 1;
         tz = sqrt((z * z)/sigma20+1.0 /sigma21);
         uz = m0*z/sigma20+m1/sigma21;
         vz = exp(0.5*( uz * uz) / (tz * tz)\
@@ -2083,13 +2089,14 @@ def asympdfPrecision(u,m0,m1,sigma20,sigma21):
         aux2 = pi * sqrt(sigma20*sigma21) * (tz * tz);
         d    = exp(-m0*m0/sigma20/2.0-m1*m1/sigma21/2.0);
         pzb  = aux1 * (2*norm.cdf(uz / tz)-1) + d / aux2;
-        pz   = pzb / (u ** 2);
+        pz   = pzb / (x ** 2);
+        
     return pz
 #==========================================================================
 #==========================================================================
 #function [pz, meanpz, varpz] = ...
-#    asymRecall(r,N1,m1,sigma21)
-def asymRecall(r,N1,m1,sigma21):
+#    asymptoticRecall(r,N1,m1,sigma21)
+def asymptoticRecall(r,N1,m1,sigma21):
 
 # Asymptotic probability density function (PDF)
 # of the Recall:
@@ -2102,7 +2109,7 @@ def asymRecall(r,N1,m1,sigma21):
 #      FN = N1-sum_k Y_1(k)
 #======
 # Synopsis:
-#  [pz, meanpz, varpz] = asympdfRecall(r,N1,m1,sigma21)
+#  [pz, meanpz, varpz] = asymptoticpdfRecall(r,N1,m1,sigma21)
 #
 #======
 # Inputs:
@@ -2394,7 +2401,7 @@ def CRBonazimuthonlywithoutLOC(xsensors_m, sigma2noise, aec,
     #    duration_sec: time duration in sec.
     #    Fs_Hz: sampling frequency in Hz
     # Outputs:
-    #    CRB of the azimuth
+    #    CRB of the azimuth expressed in rad^2 
     """
     
     M = size(xsensors_m,0);
