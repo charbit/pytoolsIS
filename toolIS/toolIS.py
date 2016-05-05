@@ -8,7 +8,7 @@ class struct:
          self.__dict__.update(kwds)
 
 from numpy import size, zeros, pi, cos, sin, int, intc, array, trace, nansum, max
-from numpy import ceil, log2, exp, real, nan, std, log10, inf
+from numpy import ceil, log2, exp, real, nan, std, log10, inf, angle, sort
 from numpy import argmax, unravel_index, arange
 from numpy import linspace,logspace, sum, mean, conj, concatenate
 from numpy import dot, transpose, diag, sqrt, random, ones, eye, kron
@@ -24,6 +24,8 @@ from scipy.signal import lfilter, butter
 from statsmodels.regression import yule_walker
 from scipy.integrate import quad
 from scipy.stats import norm
+from numpy.linalg  import norm as norm2
+
 
 from time import sleep
 from matplotlib import pyplot as plt
@@ -2438,3 +2440,58 @@ def CRBonazimuthonlywithoutLOC(xsensors_m, sigma2noise, aec,
     CRBaz = real(1.0 / FIM)    
     return CRBaz
 #==========================================================================
+#==================================
+def rotate2D(x,center,alpha_deg):
+    cosa = cos(alpha_deg*pi/180.0)
+    sina = sin(alpha_deg*pi/180.0)
+    Ralpha = array([[cosa, sina],[-sina, cosa]])
+    M=size(x,0)
+    y=zeros([M,2])
+    for im in range(M):
+        y[im,:]=center + dot(x[im,:]-center,Ralpha)
+    
+    return y
+
+#==================================
+def stationcharacteristics(z):
+    M =size(z,0)
+    combi = M*(M-1)/2;
+    rangecombi=range(combi)
+    regresscombi = array([ones(combi), rangecombi]);
+    HtH_d = dot(regresscombi,regresscombi.transpose());
+    HtHm1Ht = dot(inv(HtH_d),regresscombi);
+    HtH = M*dot(z.transpose(),z)    
+    eigHtH = eigh(HtH)
+    RR=eigHtH[0][1] / eigHtH[0][0]
+    HtHproduct = eigHtH[0][1] * eigHtH[0][0]
+    areaCov = 1.0 / HtHproduct
+    
+    distance=zeros(combi)
+    orient=zeros(combi)
+    
+    cp=0;
+    for im1 in range(M-1):
+        for im2 in range(im1+1,M):
+            distance[cp]=norm2(z[im1,:]-z[im2,:]);
+            diffz = z[im1,:]+1j*z[im2,:]
+            orient[cp]=angle(diffz[0]+1j*diffz[1]);
+            cp=cp+1;
+    dmin = min(distance)
+    dmax = max(distance)
+    dsort = sort(distance)
+    alpha_d = dot(HtHm1Ht,dsort)
+    residu_d = dsort-dot(regresscombi.transpose(),alpha_d) 
+    SSE_d = dot(residu_d,residu_d)
+    SST_d = norm2(dsort-mean(dsort))**2;
+    SSR_d=SST_d-SSE_d;
+    R2_d = SSR_d/SST_d;
+    
+    osort = sort(orient)
+    alpha_o = dot(HtHm1Ht,osort)
+    residu_o = osort-dot(regresscombi.transpose(),alpha_o) 
+    SSE_o = dot(residu_o,residu_o)
+    SST_o = norm2(osort-mean(osort))**2;
+    SSR_o=SST_o-SSE_o;
+    R2_o = SSR_o/SST_o;
+    
+    return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, orient
