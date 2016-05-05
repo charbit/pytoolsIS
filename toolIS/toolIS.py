@@ -8,8 +8,8 @@ class struct:
          self.__dict__.update(kwds)
 
 from numpy import size, zeros, pi, cos, sin, int, intc, array, trace, nansum, max
-from numpy import ceil, log2, exp, real, nan, std, log10, inf, angle, sort
-from numpy import argmax, unravel_index, arange
+from numpy import ceil, log2, exp, real, nan, std, log10, inf, angle, sort, log2
+from numpy import argmax, unravel_index, arange, histogram
 from numpy import linspace,logspace, sum, mean, conj, concatenate
 from numpy import dot, transpose, diag, sqrt, random, ones, eye, kron
 
@@ -2493,5 +2493,22 @@ def stationcharacteristics(z):
     SST_o = norm2(osort-mean(osort))**2;
     SSR_o=SST_o-SSE_o;
     R2_o = SSR_o/SST_o;
+
+    histd=histogram(distance, bins=combi);
+    histdnorm = histd[0]/float(combi);
     
-    return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, orient
+    Hentropy_d = 0;
+    for ic in range(combi):
+        if not(histdnorm[ic]==0):
+            Hentropy_d = Hentropy_d-histdnorm[ic]*log2(histdnorm[ic]);
+    
+    histo=histogram(orient, bins=combi);
+    histonorm = histo[0]/float(combi);
+    
+    Hentropy_o = 0;
+    for ic in range(combi):
+        if not(histonorm[ic]==0):
+            Hentropy_o = Hentropy_o-histonorm[ic]*log2(histonorm[ic]);
+
+    
+    return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, orient, Hentropy_d, Hentropy_o
