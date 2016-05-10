@@ -26,31 +26,35 @@ class struct:
          self.__dict__.update(kwds)
                
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/toolutilities')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
+sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
+
 
 from geoloc import extractstationlocations
 
-from toolIS import evalCRBwithgaussianLOC
+from toolIS import evalCRBwithgaussianLOC, CRBonazimuthonlywithoutLOC
 
 from numpy import array,ones, exp, size, pi, arange, min, argmin
-from numpy import random, mean, std, sum, log10
+from numpy import random, mean, std, sum, log10, sort
 from numpy import zeros, dot, diag, cos, sin, sqrt, linspace, logspace
 from matplotlib import pyplot as plt
 
-
-listIS = ('I31',)
-
-llist = len(listIS)
-
 #===========================
+listIS = ('I37',)
+
 Fs_Hz = 20.0;
 SNR_dB = -10.0;
 T_sec = 30.0;
 aec = struct(e_deg = 70.0, c_mps = 340.0)
-std_aecwithLOC = struct(a_deg = 5.0, e_deg = 3.0, c_mps = 13.0)
-#===========================
+std_aecwithLOC = struct(a_deg = 1.0, e_deg = 1.0, c_mps = 10.0)
+std_aecwithoutLOC = struct(a_deg = 0.0, e_deg = 0.0, c_mps = 0.0)
+Laperture = 8;
+listapertureXfactor = linspace(0.7,2.2,Laperture)
+La = 10
+listazimuth = linspace(0,360,La)
 
+#===========================
+llist = len(listIS)
 results = []
 
 for station in listIS:
@@ -72,18 +76,19 @@ for station in listIS:
         M = size(xsensors_m,0);
     
         xsensors_m_centered = xsensors_m - ones([M,1])*mean(xsensors_m,0)
-        normfactor = std(xsensors_m_centered,0) ; 
-        meannormfactor = mean(normfactor)
-        xsensors_m_norm = xsensors_m_centered / meannormfactor
+        normfactor = std(xsensors_m_centered,0) ;
+        combi = M*(M-1)/2;
+        distance_m = zeros(combi)
+        cp=0;
+        for im in range(combi-1):
+            for imp in range(im+1,M):
+                auxv=xsensors_m_centered[im,:]-xsensors_m_centered[imp,:]
+                distance_m[cp]=sqrt(dot(auxv,auxv.reshape(3,1)))
+                cp=cp+1
     #%%
             
         sigma2noise = (10.0**(-SNR_dB/10.0));
-        listazimuth = linspace(0,360,60)
-        La = len(listazimuth)
-        
-        listapertureXfactor = linspace(0.3,1.5,8)
-        Laperture = len(listapertureXfactor)
-        
+                
         sigmaa_deg = zeros([La,Laperture])
         sigmav_mps = zeros([La,Laperture])
         meanstdazwrtaz = zeros([Laperture,2])
@@ -93,7 +98,7 @@ for station in listIS:
             if LOCflag:        
                 std_aec = std_aecwithLOC
             else:
-                std_aec = struct(a_deg = 0.0, e_deg = 0.0, c_mps = 0.0)
+                std_aec = std_aecwithoutLOC
             for iap in range(Laperture):
                 xsensors_iap_m = xsensors_m_centered*listapertureXfactor[iap]
                 for ia in range(La):
@@ -144,21 +149,32 @@ for station in listIS:
             
             #%%
         dirsavefigures = '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/propalSA/'
-        HorizontalSize = 5
-        VerticalSize   = 3
+        HorizontalSize = 6
+        VerticalSize   = 6
+        figmeanstdaz=plt.figure(num='station %s'%station,figsize=
+           (HorizontalSize,VerticalSize), edgecolor='k', 
+            facecolor = [1,1,0.92]);
+        plt.subplot(223)
+        plt.plot(xsensors_m_centered[:,0]/1000.0,xsensors_m_centered[:,1]/1000.0,'o')
+        plt.grid('on')
+        plt.xticks(fontsize=10)
+        plt.yticks(fontsize=10)
+        plt.ylabel('km',fontsize=10)        
+        plt.subplot(224)
+        plt.plot(sort(distance_m/1000.0),'.-')
+        plt.xticks(fontsize=10)
+        plt.yticks(fontsize=10)
+        plt.grid('on')
         for LOCflag in (0,1):
-            figmeanstdaz=plt.figure(num=2,figsize=
-               (HorizontalSize,VerticalSize), edgecolor='k', 
-                facecolor = [1,1,0.92]);
+            plt.subplot(2,2,LOCflag+1)
             plt.plot(listapertureXfactor,meanstdazwrtaz[:,LOCflag],'.-')
             plt.xlabel('multiplicative factor',fontsize=10)
-            plt.ylabel('mean of STD - degree',fontsize=10)
-            plt.grid()    
-            if LOCflag:
-                plt.title('Station %s with LOC'%station)
-                plt.show()
-            else:
-                plt.title('Station %s without LOC'%station)
-                plt.show()
-            figmeanstdaz.savefig(dirsavefigures + \
-                 'CRBstdLOCasXfcactorLOC%i%s.pdf'%(LOCflag,station))
+            plt.xticks(fontsize=10)
+            plt.yticks(fontsize=10)
+            plt.grid('on')    
+            plt.show()
+            if not(LOCflag):
+                plt.title('Station %s'%station,fontsize=12)
+                plt.ylabel('mean of STD - degree',fontsize=10)
+#            figmeanstdaz.savefig(dirsavefigures + \
+#                 'CRBstdLOCasXfcactorLOC%i%s.pdf'%(LOCflag,station))

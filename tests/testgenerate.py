@@ -163,12 +163,8 @@ SOIelevationrange_deg        = array([20.0, 20.0]);
 SOIvelocityrange_mps         = array([340.0, 340.0]);
 
 SOIduration_at_least_sec    = 0
-
 SOI_margeazumith_deg        = 10 
-
-
 totalTime_s                 = 100.0;
-
 SOI = struct(name = 'soiinfo', flag_SOItrue = flag_SOItrue,
              soidatabase = SOI_database,
              noiseflag_real = NOISEflag_real,

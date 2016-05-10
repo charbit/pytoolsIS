@@ -9,7 +9,7 @@ class struct:
 
 from numpy import size, zeros, pi, cos, sin, int, intc, array, trace, nansum, max
 from numpy import ceil, log2, exp, real, nan, std, log10, inf, angle, sort, log2
-from numpy import argmax, unravel_index, arange, histogram
+from numpy import argmax, unravel_index, arange, histogram, diff
 from numpy import linspace,logspace, sum, mean, conj, concatenate
 from numpy import dot, transpose, diag, sqrt, random, ones, eye, kron
 
@@ -2478,7 +2478,11 @@ def stationcharacteristics(z):
             cp=cp+1;
     dmin = min(distance)
     dmax = max(distance)
+    
     dsort = sort(distance)
+    diffsort_d = diff(dsort)
+    dispersionratio_d = std(diffsort_d)/mean(diffsort_d)
+    
     alpha_d = dot(HtHm1Ht,dsort)
     residu_d = dsort-dot(regresscombi.transpose(),alpha_d) 
     SSE_d = dot(residu_d,residu_d)
@@ -2487,6 +2491,10 @@ def stationcharacteristics(z):
     R2_d = SSR_d/SST_d;
     
     osort = sort(orient)
+    diffsort_o = diff(osort)
+    dispersionratio_o = std(diffsort_o)/mean(diffsort_o)
+
+
     alpha_o = dot(HtHm1Ht,osort)
     residu_o = osort-dot(regresscombi.transpose(),alpha_o) 
     SSE_o = dot(residu_o,residu_o)
@@ -2511,4 +2519,5 @@ def stationcharacteristics(z):
             Hentropy_o = Hentropy_o-histonorm[ic]*log2(histonorm[ic]);
 
     
-    return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, orient, Hentropy_d, Hentropy_o
+    return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, \
+          orient, Hentropy_d, Hentropy_o, dispersionratio_d, dispersionratio_o

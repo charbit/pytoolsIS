@@ -52,7 +52,7 @@ La = len(listazimuth)
 sigmaa_deg = zeros([La,2])
 sigmav_mps = zeros([La,2])
 sigmaaonly_deg = zeros([La,2])
-for LOCflag in range(2):
+for LOCflag in (1,):#range(2):
     if LOCflag:        
         std_aec = stdaec0
     else:

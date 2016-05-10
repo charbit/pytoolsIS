@@ -22,7 +22,7 @@ sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/pytools/progspy/tool
 from geoloc import extractstationlocations
 
 from toolIS import maxfstat, synthetizer
-from toolIS import evalCRBwithgaussianLOC, CRBonazimuthonlywithoutLOC
+from toolIS import evalCRBwithgaussianLOC
 
 # attention we only test the LOC
 # therefore the other values are set at NaN
@@ -65,7 +65,7 @@ for istation in range(llistIS):
             xsensors_m[im,:] = array([evi.geolocs.X_km,
                            evi.geolocs.Y_km, 
                            evi.geolocs.Z_km])*1000.0;
-        
+            
         xsensors_m = xsensors_m - xsensors_m[0,:]
     
     cp = 0
