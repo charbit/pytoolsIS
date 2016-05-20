@@ -49,21 +49,21 @@ def synthetizer(station, SOI, LOC, SON,
     # Inputs:
     # station consists of M structures each of them with the 
     #        following items:
-    #        .name = sensor name, ex. H1
+    #        .sensorname = sensor name, ex. H1
     #        .geolocs = structure which contains 5 items:
     #           latitude_deg,longitude_deg, X_km,Y_km, Z_km
     #     station: structure
-    #        .name = sensor name
+    #        .sensorname = sensor name
     #        .data = geoloc structure which contains 5 items:
     #          latitude_deg,longitude_deg, X_km,Y_km, Z_km
-    #     SOI = struct(name = 'soiinfo', flag_SOItrue = flag_SOItrue,
+    #     SOI = struct(name = 'soiinfo', soiflag_real = SOIflag_real,
     #             soidatabase = SOI_database,
     #             noiseflag_real = NOISEflag_real,
     #             noise_database = NOISE_database,
-    #             totaltime_s = totalTime_s,
+    #             totaltime_sec = totalTime_sec,
     #             Fs_Hz = SOIFs_Hz, 
     #             nb_events = SOInb_events,
-    #             durationrange_s = SOIdurationrange_s,
+    #             durationrange_sec = SOIdurationrange_sec,
     #             frequencywidth_Hz_Hz = SOIfrequencywidth_Hz_Hz,
     #             SNRrange_dB = SOISNRrange_dB,
     #             azimuthList_deg = SOIazimuthList_deg,
@@ -99,18 +99,19 @@ def synthetizer(station, SOI, LOC, SON,
     #         M: number of station
     #     .events: structure of length NB_EVENTS
     #       station: structure
-    #        .name = sensor name
+    #        .sensorname = sensor name
     #        .data = geoloc structure M by 5
     #          latitude_deg,longitude_deg,
     #          elevation_km, X_km,Y_km
-    #       SOI = struct(name = 'soiinfo', flag_SOItrue = flag_SOItrue,
+    #       SOI = struct(name = 'soiinfo', 
+    #             soiflag_real = SOIflag_real,
     #             soidatabase = SOI_database,
     #             noiseflag_real = NOISEflag_real,
     #             noise_database = NOISE_database,
-    #             totaltime_s = totalTime_s,
+    #             totaltime_sec = totalTime_sec,
     #             Fs_Hz = SOIFs_Hz, 
     #             nb_events = SOInb_events,
-    #             durationrange_s = SOIdurationrange_s,
+    #             durationrange_sec = SOIdurationrange_sec,
     #             frequencywidth_Hz_Hz = SOIfrequencywidth_Hz_Hz,
     #             SNRrange_dB = SOISNRrange_dB,
     #             azimuthList_deg = SOIazimuthList_deg,
@@ -142,7 +143,7 @@ def synthetizer(station, SOI, LOC, SON,
     #                 probability = failure_probability)
     """
     Fs_Hz                       = SOI.Fs_Hz;
-    totalTime_s                 = SOI.totaltime_s
+    totalTime_sec               = SOI.totaltime_sec
     
     M                           = len(station);
     
@@ -154,7 +155,7 @@ def synthetizer(station, SOI, LOC, SON,
     
     nb_events                   = SOI.nb_events;
 
-    flagSOItrue                 = SOI.flag_SOItrue;
+    flagrealsoi                 = SOI.soiflag_real;
     flagrealnoise               = SOI.noiseflag_real;
     flagLOC                     = LOC.flag;
     flagSON                     = SON.flag;
@@ -188,7 +189,7 @@ def synthetizer(station, SOI, LOC, SON,
     SOI_elevationrange_deg      = SOI.elevationrange_deg
     SOI_velocityrange_mps       = SOI.velocityrange_mps
     
-    SOI_durationrange_s         = SOI.durationrange_s
+    SOI_durationrange_sec       = SOI.durationrange_sec
     SOI_duration_at_least_sec   = SOI.duration_at_least_sec
     SOI_SNRrange_dB             = SOI.SNRrange_dB
     SOI_frequencywidth_Hz       = SOI.frequencywidth_Hz;
@@ -219,7 +220,7 @@ def synthetizer(station, SOI, LOC, SON,
     # for analysing the SOI
     orderLPC           = 10;
     # total duration
-    T_pts              = int(totalTime_s*Fs_Hz);
+    T_pts              = int(totalTime_sec*Fs_Hz);
     meanxsensors_m     = array(mean(xsensors_m,0),ndmin=2);
     vectonesM          = ones([M,1])
     vectonesK          = ones([nb_events,1])
@@ -237,8 +238,8 @@ def synthetizer(station, SOI, LOC, SON,
     Directallpass  = Reverseallpass[range(len(Reverseallpass)-1,0,-1)];
     
     #=====================================================================
-    SOI_durationmin_s = SOI_durationrange_s[0];
-    SOI_durationmax_s = SOI_durationrange_s[1];
+    SOI_durationmin_sec = SOI_durationrange_sec[0];
+    SOI_durationmax_sec = SOI_durationrange_sec[1];
     #=====================================================================
     SOI_SNRmin_dB     = SOI_SNRrange_dB[0];
     SOI_SNRmax_dB     = SOI_SNRrange_dB[1];
@@ -305,30 +306,30 @@ def synthetizer(station, SOI, LOC, SON,
     IG_totattimeMUL = 0.95;
     
     if not(flagTimeoverlap):
-        meanlength_sec = (IG_totattimeMUL*totalTime_s\
-                           -SOI_durationmax_s)/nb_events;
+        meanlength_sec = (IG_totattimeMUL*totalTime_sec\
+                           -SOI_durationmax_sec)/nb_events;
         SOI_TOA_sec[0] = meanlength_sec * random.rand();
-        SOI_dur_sec[0] = (SOI_durationmax_s-SOI_durationmin_s)\
-                       *random.rand()+SOI_durationmin_s;
+        SOI_dur_sec[0] = (SOI_durationmax_sec-SOI_durationmin_sec)\
+                       *random.rand()+SOI_durationmin_sec;
         SOI_dur_sec[0] = max([SOI_dur_sec[0], SOI_duration_at_least_sec]);
         nexteventbegin = SOI_TOA_sec[0]+SOI_dur_sec[0];
         for ik in range (1,nb_events):
             SOI_TOA_sec[ik] = meanlength_sec\
                      * random.rand()+nexteventbegin;
-            SOI_dur_sec[ik] = (SOI_durationmax_s-SOI_durationmin_s)\
-                     * random.rand()+SOI_durationmin_s;
+            SOI_dur_sec[ik] = (SOI_durationmax_sec-SOI_durationmin_sec)\
+                     * random.rand()+SOI_durationmin_sec;
             SOI_dur_sec[ik] = max([SOI_dur_sec[ik], \
                        SOI_duration_at_least_sec]);
             nexteventbegin  = SOI_TOA_sec[ik]+SOI_dur_sec[ik];
-            if nexteventbegin > totalTime_s-SOI_durationmax_s:
+            if nexteventbegin > totalTime_sec-SOI_durationmax_sec:
                 print('too many events for the total duration');
                 return []
 
     else:
-        SOI_TOA_sec = IG_totattimeMUL*totalTime_s\
+        SOI_TOA_sec = IG_totattimeMUL*totalTime_sec\
                  * random.rand(nb_events);
-        SOI_dur_sec = (SOI_durationmax_s-SOI_durationmin_s)\
-                 *random.rand(nb_events)+SOI_durationmin_s;
+        SOI_dur_sec = (SOI_durationmax_sec-SOI_durationmin_sec)\
+                 *random.rand(nb_events)+SOI_durationmin_sec;
         for ik in range(nb_events):
             SOI_dur_sec[ik] = max([SOI_dur_sec[ik],\
                     SOI_duration_at_least_sec]);
@@ -408,9 +409,9 @@ def synthetizer(station, SOI, LOC, SON,
 #%%    
     #=====================================================================
     # Generation of NB_EVENTS SOIs
-    #       flagSOItrue=0:
+    #       flagrealsoi=0:
     #       either as second order filtering of white noise
-    #       flagSOItrue=1:
+    #       flagrealsoi=1:
     #       or selected from an external real signal database
     #
     # for synthetic each event, the M signals are performed
@@ -422,7 +423,7 @@ def synthetizer(station, SOI, LOC, SON,
     for ik in range(nb_events):
         # aux_ik is ONE signal long enough 
         #  with zero-mean and STD = 1
-        if flagSOItrue:
+        if flagrealsoi:
             aux_ik = readDATABASE(realSOI.database,overlong_mult\
                    *SOI_dur_pts(ik),Fs_Hz);
         else:

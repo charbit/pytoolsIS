@@ -5,12 +5,9 @@ Created on Mon Feb 15 18:26:22 2016
 @author: maurice
 """
 
-
 class struct:
      def __init__(self, **kwds):
          self.__dict__.update(kwds)
-
-
 
 import sys
 sys.path.insert(0, './')
@@ -19,7 +16,6 @@ sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolut
 
 from geoloc import extractstationlocations
 from toolidc import synthetizer
-from synthetizersettings import settingson
 
 # attention we only test the LOC
 # therefore the other values are set at NaN
@@ -36,16 +32,8 @@ from scipy.signal import lfilter, butter
 from scipy.signal.spectral import coherence
 from matplotlib import  pyplot as plt
 
-#%%
-#=================== setting ===========================
-# The function returns the station which is M structures
-# each of them with the following fields:
-#        .name = sensor name, ex. H1
-#        .geolocs = structure which contains 5 items:
-#           latitude_deg,longitude_deg, X_km,Y_km, Z_km
 #===
-station, SOI, LOC, SON, hugeNoise, failure, \
-     emergent, xsensors_m = settingson()
+execfile('readsettings.py')
 #=================== synthetize =========================
 oo, listevents  = synthetizer(station, SOI, LOC, \
                 SON, hugeNoise, failure, emergent);             
@@ -70,16 +58,16 @@ indexdistance   = indexdistance[argsortdistance]
 tmps=array(range(size(oo,0)))/SOIFs_Hz;
 
 HorizontalSize = 5
-VerticalSize   =10
+VerticalSize   = 10
 
 figpdfsoi = plt.figure(num=1,figsize=(HorizontalSize,VerticalSize), edgecolor='k', facecolor = [1,1,0.92]);
+#plt.clf()
 for im in range(M):
     plt.subplot(M,1,im+1)
     plt.plot(tmps,oo[:,im])
     plt.xticks(fontsize=10)
     plt.yticks([],fontsize=10)
-plt.xlabel('time - s')
 plt.show()
-plt.hold('off')
+plt.xlabel('time - s')
 
 

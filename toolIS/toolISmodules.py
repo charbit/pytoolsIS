@@ -2231,7 +2231,8 @@ def evalCRBwithgaussianLOC(xsensors_m, sigma2noise, aec, std_aec,
     """ Calculation of the Cramer-Rao bound 
     # synopsis:
     #    CRB, Jacobav =
-    #     evalCRBwithLOC(xsensors_m, sigma2noise, C, polarparam, fK_Hz)
+    #     evalCRBwithLOC(xsensors_m, sigma2noise, aec, std_aec, 
+    #               duration_sec, fK_Hz)
     # Inputs:
     #    xsensors_m : sensor locations in meter
     #    sigma2noise : noise variance
@@ -2244,7 +2245,7 @@ def evalCRBwithgaussianLOC(xsensors_m, sigma2noise, aec, std_aec,
     #    duration_sec: time duration in sec
     #    Fs_Hz: sampling frequency in Hz
     # Outputs:
-    #    CRB, Jacobav, C0
+    #    CRB, Jacobaec, Jacobav, C0
     """
     M = size(xsensors_m,0);
     D = size(xsensors_m,1);
@@ -2380,7 +2381,7 @@ def evalCRBwithgaussianLOC(xsensors_m, sigma2noise, aec, std_aec,
         C0 = 1
     else:
         C0 = C
-    return CRB, Jacobav, C0
+    return CRB, Jacobaec, Jacobav, C0
 
 #==========================================================================
 #==========================================================================

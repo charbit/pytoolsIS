@@ -313,7 +313,7 @@ def extractstationlocations(numselect, ReferenceEllipsoid=23):
                 Z_km = elev[im], \
                 X_km = x/1000.0, \
                 Y_km = y/1000.0)
-            st_aux = struct(name=sensor[im], geolocs=geoloc_im)
+            st_aux = struct(sensorname=sensor[im], geolocs=geoloc_im)
             sensors.append(st_aux)
                
     return sensors

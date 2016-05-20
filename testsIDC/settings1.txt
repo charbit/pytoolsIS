@@ -1,0 +1,59 @@
+#================================================================
+# This file contains the settings for the synthesizer
+# Comments beginning by (#) are ignored
+# All values are numerical except the first which is a string
+#    
+#================================================================
+numselect                   = 'I31';
+flag_SON                    = 0;
+flag_hugeNoise              = 0;
+flag_LOC                    = 0;
+flag_emergent               = 0;
+flag_failure                = 0;
+flag_SOIphasedistortion     = 0;
+flag_SOItimeoverlap         = 0;
+flag_SOIsuccessiveazimuth   = 1;
+#===== SON (signal of nuisance)
+SON_SNR_dB                  = 100.0;
+SON_azimuth_deg             = 168.0;
+SON_elevation_deg           = 0.0;
+SON_velocity_mps            = 340.0;
+SON_frequencyband_Hz_inf    = 0.08;
+SON_frequencyband_Hz_sup    = 1.0;
+#===== possible huge noise 
+hugeNoise_SNR_dB            = 30;
+hugeNoise_probability       = 0.05;
+#===== LOC (loss of coherence)
+LOC_std_azimuth_deg         = 1.0;
+LOC_std_elevation_deg       = 1.0;
+LOC_std_velocity_mps        = 15.0;
+#===== possible failing sensor
+failure_probability         = 0.05;
+#===== possible emergent signals
+emergent_min_sec            = 20.0;
+emergent_durationpercent    = 50.0;
+#===== origin of noise
+NOISEflag_real              = 0;
+NOISE_database              = '.........';
+#===== SOI (signal of interest)
+SOIflag_real                = 0;
+SOI_database                = '.........';
+SOIFs_Hz                    = 20.0;
+SOInb_events                = 1;
+SOIdurationrange_sec_inf    = 20.0;
+SOIdurationrange_sec_sup    = 30.0;
+SOIfrequencywidth_Hz_inf    = 0.03;
+SOIfrequencywidth_Hz_sup    = 3.5;
+SOISNRrange_dB_inf          = 0.0;
+SOISNRrange_dB_sup          = 5.0;
+SOIazimuthrange_deg_inf     = 50.0;
+SOIazimuthrange_deg_sup     = 50.0;
+SOI_margeazumith_deg        = 5.0;
+SOIelevationrange_deg_inf   = 20.0;
+SOIelevationrange_deg_sup   = 20.0;
+SOIvelocityrange_mps_inf    = 340.0;
+SOIvelocityrange_mps_sup    = 340.0;
+SOIduration_at_least_sec    = 0;
+SOI_margeazumith_deg        = 10;
+totalTime_sec               = 100.0;
+#==========================================================

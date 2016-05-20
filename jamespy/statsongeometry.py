@@ -10,14 +10,23 @@ class struct:
          self.__dict__.update(kwds)
 
 
+mypaths = ('/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS', \
+          '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities' )
+Lmypaths = len(mypaths)
+
 import sys
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolIS')
-sys.path.insert(0, '/Users/maurice/etudes/ctbto/allJOBs2016/myjob/progspy/toolutilities')
+for ip in range(Lmypaths):
+    if mypaths[ip] not in sys.path:
+        sys.path.append(mypaths[ip])
+
+
+from toolISmodules import CRBonazimuthonlywithoutLOC, rotate2D, stationcharacteristics
+from toolISmodules import evalCRBwithgaussianLOC
+
 from matplotlib import pyplot as plt
 
 
 from numpy import zeros, dot, ones, mean, pi, sort, arange, log2
-from toolIS import CRBonazimuthonlywithoutLOC, rotate2D, stationcharacteristics
 from numpy import random, array, exp, sqrt, argmax
 
 M=8
@@ -45,16 +54,13 @@ for ir in range(Lruns):
         dispersionratio_d = xcht[10]
         dispersionratio_o = xcht[11]
         
-        distrib_x[ir] = dmin;
+        distrib_x[ir] = dmax;
         distrib_y[ir] = entropy_d
 
 #%%
 plt.clf()
 indmax=argmax(distrib_x);
 xwithmin = x[:,:,indmax];
-plt.plot(xwithmin[:,0],xwithmin[:,1],'o')
-plt.xlim([-0.5,0.5])
-plt.ylim([-0.5,0.5])
-plt.axis('square')
+plt.hist(distrib_x)
 
-print [distrib_x[indmax]/maxdmax, distrib_y[indmax]/maxentropy]
+#print [distrib_x[indmax]/maxdmax, distrib_y[indmax]/maxentropy]
