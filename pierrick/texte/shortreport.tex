@@ -1,0 +1,674 @@
+\documentclass[a4paper, 10pt]{report}
+%================================================================
+\usepackage{verbatim, fancyhdr, theorem, dsfont, color,
+            amsmath, amsfonts, amssymb,
+            hyperref,epsfig, graphicx, setspace}
+\usepackage{graphics}
+% to insert pdf sous la forme
+% \includepdf[pages=-]{../CoherePart_CR1nov2012/rapportCoherence.pdf}
+%\usepackage{pdfpages}
+%============================================
+% \textheight 21cm
+% \doublespace
+%  \oddsidemargin -0.5cm
+% \evensidemargin +1.5cm
+%  \textwidth 17cm
+% \topmargin 0cm
+%============================================
+% Figures
+%============================================
+\newcommand{\figsstit}[2]{
+\begin{figure}[hbtp]
+\centerline{
+    \hbox{ \epsfig{figure={#1}, scale=#2} }
+}
+\end{figure}}
+%============================================
+\newcommand{\figscale}[4]{
+\begin{figure}[hbtp]
+\centerline{
+    \hbox{ \includegraphics[scale=#4]{#1} }
+}
+\begin{center}
+\parbox{12	 cm}
+{
+    \caption{\protect\small\it  {#2}}
+    \label {#3}
+}
+\end{center}
+
+\end{figure}}
+
+%%============================================
+%\newcommand{\figsstit}[2]{
+%\begin{figure}[hbtp]
+%\centerline{
+%    \hbox{ \includegraphics{figure={#1}, scale=#2} }
+%}
+%\end{figure}}
+%
+
+%==============================================
+\newcommand{\prob}[1]{\mathds{P}\left( #1 \right)}
+\newcommand{\esp}[1]{\mathds{E}\left[ #1 \right]}
+\newcommand{\var}[1]{\mathrm{var}\left( #1 \right)}
+\newcommand{\cov}[1]{\mathrm{cov}\left( #1 \right)}
+\newcommand{\diag}[1]{\mathrm{diag}\left( #1 \right)}
+\newcommand{\trace}[1]{\mathrm{trace}\left( #1 \right)}
+\newcommand{\card}[1]{\left| #1 \right|}
+\newcommand{\myemph}[1]{\emph{\color{red}#1}}
+
+
+ \newcommand{\benoit}[1]{\marginpar{\color{red}\footnotesize{BENOIT:}
+                \color{red}\footnotesize{ #1}}}
+
+ \newcommand{\momo}[1]{\marginpar{\color{blue}\footnotesize{MOMO:}
+                \color{blue}\footnotesize{ #1}}}
+%%============================================================================
+\def\thesection{\arabic{section}.}
+\def\thesubsection{\arabic{section}.\arabic{subsection}}
+%\def\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+%\def\thefigure{\arabic{figure}}
+%\def\theequation{\arabic{equation}}
+%\def\theexercice{\arabic{exercice}}
+%\def\theexample{\arabic{example}}
+%\def\theproof{\arabic{proof}}
+
+%===============================================
+\newtheorem{property}{Properties}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem - \thetheoreme}
+\newtheorem{definition}{Definition - \thedefinision}
+\newtheorem{example}{Example}
+\newtheorem{lemme}{Lemme - \thelemme}
+\newtheorem{proof}{Proof - \theproof}
+\newenvironment{TAB}{\begin{table}[[hbt] \center \leavevmode}{\end{table}}
+%%=========== LOGO/Head/Foot par PAGE ========
+%\pagestyle{fancy}
+% \lhead[]{}
+% \chead[]{}
+% \rhead[]{\includegraphics[scale=0.1]{\DIRLOGO/logo_telecomparis}}
+% \lfoot[]{\thechapter}
+% \cfoot[]{}
+% \rfoot[]{\thepage}
+
+%%============================================================================
+%\newcounter{auxiliaire}
+%%%%%%%% comment
+%\setcounter{auxiliaire}{\theenumi}
+%\end{enumerate}
+% TEXTE
+%\begin{enumerate}
+%\setcounter{enumi}{\theauxiliaire}
+%%============================================================================
+%\renewcommand\arraystretch{1.6}
+
+\def\ua{\underline a}
+\def\ub{\underline b}
+\def\uB{\underline B}
+\def\uH{\underline H}
+\def\ur{\underline r}
+\def\us{\underline s}
+\def\ux{\underline x}
+\def\uX{\underline X}
+\def\uZ{\underline Z}
+\def\utheta{\underline \theta}
+\def\hat{\widehat}
+
+\def\MSC{\mathrm{MSC}}
+\def\SNR{\mathrm{SNR}}
+\def\iSNR{\mathrm{SNR}^{-1}}
+
+\def\degree{$^{\circ}$}
+\def\ttb{\tt\color{blue}}
+\def\ttr{\tt\color{red}}
+\def\ut{{u}}
+\def\rf{{r}}
+
+%============== colors ========================
+\definecolor{enstrouge}{RGB}{212,65,84}
+\definecolor{lightorange}{RGB}{235,226,52}
+\definecolor{greennoise}{RGB}{243,42,255}
+\definecolor{lightred}{RGB}{255,181,183}
+\definecolor{light-grey}{rgb}{0.95,0.95,0.95}
+\definecolor{peach}{rgb}{0.98,0.49,0.25}
+\definecolor{burntorange}{rgb}{0.79,0.37,0}
+\definecolor{light-yellow}{rgb}{1,1,0.92}
+
+\definecolor{light-green}{RGB}{231,255,145}
+\definecolor{enstorange}{RGB}{255,214,10}
+\definecolor{enstrouge}{RGB}{212,65,84}
+\definecolor{grey}{RGB}{204,204,204}
+\definecolor{blue}{RGB}{0,0,255}
+\definecolor{almost-black}{RGB}{100,100,100}
+\definecolor{violet}{rgb}{0.4,0,0.4}
+\definecolor{cyan}{RGB}{0,255,255}
+\definecolor{magenta}{RGB}{243,42,255}
+
+\def\degree{^{\circ}}
+\def\simiid{\stackrel{\mathrm{i.i.d.}}{\sim}}
+\def\MSC{\mathrm{MSC}}%{\MSC}}
+\def\hMSC{\widehat{\MSC}}%{\MSC}}
+
+
+ \def\programsfullprocess{../fullprocess/}
+ \def\programsToolbox{../fullprocess/ZZtoolbox/}
+ \def\programspierrick{../fullprocess/ZZtoolbox/00Pierrick/}
+\def\python{PYTHON}%\copyright
+
+
+\graphicspath{{figures/}}
+%============================================
+\begin{document}
+ \sloppy
+%  \nocite{*}
+ \bibliographystyle{plain}
+\tableofcontents
+\section{Description}
+This document describes the use of the signal generator. The codes are written in \python. The signal generator function, called {\ttr generator} in {\ttb\nameref{tool4generate}}, has two inputs, one is an 2D array describing the sensor locations, the other is a text file name describing all signal parameters. An example is given below. Typically we use the following call:
+\begin{verbatim}
+      signals, groundtruth = generator(xsensors_m,settingfile)
+\end{verbatim}
+
+\subsection {Inputs}
+\begin{itemize}
+\item
+{\ttr xsensors\_m} is an $M$ by $3$ array of sensor coordinates in 3D, expressed in meter and $M$ the number of sensors,
+
+\item
+variable {\ttr settingfile} is a textile name (for example see file {\ttb\nameref{settings1}} generator in the appendix). Today each line is a Python affectation command in such a way to provide a value to a variable. It means that the variable name can not be changed and the shape must be an Python affectation (symbol $=$).
+\end{itemize}
+
+
+\subsection {Outputs}
+\begin{itemize}
+\item
+{\ttr signals} is an array $N$ by $M$ which consists of the $M$ signals. {\ttr signals} returns $0$ if the demand cannot be satisfied.
+\item
+{\ttr groundtruth} is a sequence of $K$ structures where $K$ denotes the number of detections. Each detection consists of the following fields (see function generator in the appendix, {\ttb \nameref{tool4generate}}):
+\begin{itemize}
+\item
+{\ttr .LOC}, which is a structure describing the loss of coherence,
+\item
+{\ttr .SOI}, which is a structure describing the signal of interest,
+\item
+{\ttr .SON}, which is a structure describing the signal of nuisance,
+\item
+{\ttr .emergent}, which is a structure describing the onset of the SOI,
+\item
+{\ttr .failure}, which is a structure describing the sensor failure simulation,
+\item
+{\ttr .hugenoise}, which is a structure describing the sensor affected by a huge noise,
+\item
+{\ttr .phasedistorsion}, which is a structure describing the sensor affected by a phase distorsion.
+
+\end{itemize}
+\end{itemize}
+
+
+\newpage
+%==================================
+\section{Example}
+
+As an example, we have reported figure \ref{fig:example} the signals generated by the program {\ttb  \nameref{testgenerate}} with the settings of the file {\ttb  \nameref{settings1}}
+
+\figscale{example.png}{}{fig:example}{1}
+
+
+\newpage
+\appendix
+\def\progsdir {/Users/maurice/etudes/ctbto/allJOBs2016/myjob/PROGSPY/pierrick/testsIDC/}
+
+\section{Annex: programs/functions/file}
+\subsection{settings1.txt}
+\label{settings1}
+{\ttr \Large settings1.txt}
+{\small\verbatiminput{ \progsdir settings1.txt}}
+
+\newpage
+\subsection{testgenerate.py}
+\label{testgenerate}
+{\ttr \Large testgenerate.py}
+{\small\verbatiminput{ \progsdir testgenerate.py}}
+
+
+\subsection{tool4generate.py}
+\label{tool4generate}
+{\ttr \Large tool4generate.py}
+{\small\verbatiminput{ \progsdir  toolbox4IDC/tool4generate.py}}
+
+\newpage
+\subsection{geoloc.py}
+{\ttr \Large geoloc.py}
+{\small\verbatiminput{ \progsdir  toolbox4IDC/geoloc.py}}
+
+\subsection{allISs.xls}
+{\small
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I02H1&	IS02 (I02AR)&	 	54.58057&	67.30923&	.094\\
+I02H2&	IS02 (I02AR)&	 	54.5749&	67.31503&	.069\\
+I02H3&	IS02 (I02AR)&	 	54.57783&	67.29508&	.0785\\
+I02H4&	IS02 (I02AR)&	 	54.58728&	67.30883&	.1211\\
+I02H5&	IS02 (I02AR)&	 	54.58274&	67.31434&	.0957\\
+I04H1&	IS04 (I04AU)&	 	34.59761&	116.35669&	.16708\\
+I04H2&	IS04 (I04AU)&	 	34.59617&	116.36714&	.15569\\
+I04H3&	IS04 (I04AU)&	 	34.60757&	116.35155&	.12319\\
+I04H4&	IS04 (I04AU)&	 	34.594&	116.34458&	.15468\\
+I04H5&	IS04 (I04AU)&	 	34.59471&	116.34109&	.1477\\
+I04H6&	IS04 (I04AU)&	 	34.59312&	116.34104&	.14676\\
+I04H7&	IS04 (I04AU)&	 	34.59112&	116.34316&	.14321\\
+I04H8&	IS04 (I04AU)&	 	34.59292&	116.34639&	.14871\\
+I05H1&	IS05 (I05AU)&	 	42.490798&	147.68063&	.35\\
+I05H2&	IS05 (I05AU)&	 	42.487193&	147.6743&	.31\\
+I05H3&	IS05 (I05AU)&	 	42.482285&	147.67762&	.314\\
+I05H4&	IS05 (I05AU)&	 	42.480752&	147.68978&	.316\\
+I05H5&	IS05 (I05AU)&	 	42.48847&	147.69105&	.316\\
+I05H6&	IS05 (I05AU)&	 	42.496572&	147.68299&	.308\\
+I05H7&	IS05 (I05AU)&	 	42.50046&	147.68433&	.306\\
+I05H8&	IS05 (I05AU)&	 	42.499768&	147.68092&	.304\\
+I06H1&	IS06 (I06AU)&	 	12.14645&	96.82032&	-.01684\\
+I06H2&	IS06 (I06AU)&	 	12.14752&	96.81855&	-.01764\\
+I06H3&	IS06 (I06AU)&	 	12.14509&	96.81774&	-.02078\\
+I06H4&	IS06 (I06AU)&	 	12.14354&	96.81849&	-.01602\\
+I06H5&	IS06 (I06AU)&	 	12.14470&	96.82085&	-.01929\\
+I06H6&	IS06 (I06AU)&	 	12.14585&	96.82428&	-.02922\\
+I06H7&	IS06 (I06AU)&	 	12.15422&	96.82688&	-.01395\\
+I06H8&	IS06 (I06AU)&	 	12.15724&	96.82169&	-.01192\\
+I07H1&	IS07 (I07AU)&	 	19.93485&	134.32954&	.3855\\
+I07H2&	IS07 (I07AU)&	 	19.93341&	134.33094&	.3876\\
+I07H3&	IS07 (I07AU)&	 	19.93659&	134.33073&	.392\\
+I07H4&	IS07 (I07AU)&	 	19.93502&	134.3277&	.383\\
+I07H5&	IS07 (I07AU)&	 	19.924550&	134.325790&	.3873\\
+I07H6&	IS07 (I07AU)&	 	19.93270&	134.33885&	.387533\\
+I07H7&	IS07 (I07AU)&	 	19.940220&	134.339630&	.3877\\
+I07H8&	IS07 (I07AU)&	 	19.943290&	134.3229&	.3884\\
+I07L1&	IS07 (I07AU)&	 	19.93482&	134.32953&	.3855\\
+I07L2&	IS07 (I07AU)&	 	19.92455&	134.32579&	.3873\\
+I07L3&	IS07 (I07AU)&	 	19.94022&	134.33963&	.3877\\
+I07L4&	IS07 (I07AU)&	 	19.94329&	134.3229&	.3834\\
+I08H1&	IS08 (I08BO)&	 	16.21523&	68.45345&	4.09566\\
+I08H2&	IS08 (I08BO)&	 	16.20238&	68.45612&	4.08496\\
+I08H3&	IS08 (I08BO)&	 	16.2175&	68.4429&	4.12419\\
+I08H4&	IS08 (I08BO)&	 	16.22168&	68.46378&	4.0705\\
+I09H1&	IS09 (I09BR)&	 	15.637967&	48.016422&	1.1853\\
+I09H2&	IS09 (I09BR)&	 	15.628031&	48.019857&	1.2444\\
+I09H3&	IS09 (I09BR)&	 	15.645076&	48.008277&	1.1835\\
+I09H4&	IS09 (I09BR)&	 	15.639847&	48.025481&	1.2647\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I10H1&	IS10 (I10CA)&	 	50.201469&	96.026854&	.246629\\
+I10H2&	IS10 (I10CA)&	 	50.206652&	96.039572&	.237465\\
+I10H3&	IS10 (I10CA)&	 	50.206487&	96.011693&	.23985\\
+I10H4&	IS10 (I10CA)&	 	50.187358&	96.018934&	.242594\\
+I11L1&	IS11 (I11CV)&	 	15.25729&	23.18388&	.0443\\
+I11L2&	IS11 (I11CV)&	 	15.25822&	23.18637&	.0407\\
+I11L3&	IS11 (I11CV)&	 	15.25551&	23.18585&	.044\\
+I11L4&	IS11 (I11CV)&	 	15.26738&	23.18385&	.0413\\
+I11L5&	IS11 (I11CV)&	 	15.25802&	23.177&	.0451\\
+I11L6&	IS11 (I11CV)&	 	15.25016&	23.18303&	.0552\\
+I11L7&	IS11 (I11CV)&	 	15.25566&	23.19426&	.0403\\
+I11L8&	IS11 (I11CV)&	 	15.26459&	23.19374&	.0371\\
+I13H1&	IS13 (I13CL)&	 	27.12726&	109.36265&	.16347\\
+I13H2&	IS13 (I13CL)&	 	27.12763&	109.35046&	.15193\\
+I13H3&	IS13 (I13CL)&	 	27.14183&	109.36846&	.16175\\
+I13H4&	IS13 (I13CL)&	 	27.11656&	109.36581&	.21797\\
+I13H5&	IS13 (I13CL)&	 	27.12293&	109.36698&	.1862\\
+I13H6&	IS13 (I13CL)&	 	27.12275&	109.36546&	.16979\\
+I13H7&	IS13 (I13CL)&	 	27.12416&	109.36708&	.16244\\
+I13H8&	IS13 (I13CL)&	 	27.12238&	109.36758&	.18178\\
+I14H1&	IS14 (I14CL)&	 	33.65379&	78.79598&	.3879\\
+I14H2&	IS14 (I14CL)&	 	33.64173&	78.79628&	.2704\\
+I14H3&	IS14 (I14CL)&	 	33.65896&	78.78761&	.3628\\
+I14H4&	IS14 (I14CL)&	 	33.65103&	78.80917&	.4951\\
+I14H5&	IS14 (I14CL)&	 	33.64253&	78.80696&	.354\\
+I14H6&	IS14 (I14CL)&	 	33.65826&	78.78648&	.3498\\
+I14H7&	IS14 (I14CL)&	 	33.65961&	78.78714&	.3865\\
+I14H8&	IS14 (I14CL)&	 	33.65863&	78.7887&	.3541\\
+I17H1&	IS17 (I17CI)&	 	6.6703566&	4.8569106&	.156306\\
+I17H2&	IS17 (I17CI)&	 	6.6836685&	4.8458096&	.126239\\
+I17H3&	IS17 (I17CI)&	 	6.6580002&	4.8493314&	.11965\\
+I17H4&	IS17 (I17CI)&	 	6.6711886&	4.8692588&	.146596\\
+I18H1&	IS18 (I18DK)&	 	77.47625&	69.29103&	.053\\
+I18H2&	IS18 (I18DK)&	 	77.47599&	69.28442&	.071\\
+I18H3&	IS18 (I18DK)&	 	77.47471&	69.28512&	.046\\
+I18H4&	IS18 (I18DK)&	 	77.47487&	69.29108&	.05\\
+I18L1&	IS18 (I18DK)&	 	77.47556&	69.28776&	.0875\\
+I18L2&	IS18 (I18DK)&	 	77.48068&	69.27989&	.14\\
+I18L3&	IS18 (I18DK)&	 	77.47174&	69.27112&	.03\\
+I18L4&	IS18 (I18DK)&	 	77.47521&	69.31669&	.047\\
+I19L1&	IS19 (I19DJ)&	 	11.47401&	43.17308&	.02121\\
+I19L2&	IS19 (I19DJ)&	 	11.47169&	43.17379&	.02018\\
+I19L3&	IS19 (I19DJ)&	 	11.47202&	43.17176&	.02062\\
+I19L4&	IS19 (I19DJ)&	 	11.47987&	43.17940&	.00821\\
+I19L5&	IS19 (I19DJ)&	 	11.46918&	43.18254&	.02305\\
+I19L6&	IS19 (I19DJ)&	 	11.46468&	43.17361&	.04397\\
+I19L7&	IS19 (I19DJ)&	 	11.47004&	43.16555&	.0336\\
+I19L8&	IS19 (I19DJ)&	 	11.47985&	43.16765&	.01961\\
+I21H1&	IS21 (I21FR)&	 	8.86783&	140.15907&	.806\\
+I21H2&	IS21 (I21FR)&	 	8.86054&	140.16111&	.822\\
+I21H3&	IS21 (I21FR)&	 	8.87078&	140.15047&	.796\\
+I21H4&	IS21 (I21FR)&	 	8.87498&	140.16659&	.821\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I22H1&	IS22 (I22FR)&	 	22.18445&	166.84592&	.2716\\
+I22H2&	IS22 (I22FR)&	 	22.17255&	166.84466&	.2395\\
+I22H3&	IS22 (I22FR)&	 	22.18816&	166.85694&	.2833\\
+I22H4&	IS22 (I22FR)&	 	22.18919&	166.83958&	.24627\\
+I2301&	IS23 (I23FR)&	 	49.34578&	70.24159&	.08419\\
+I2302&	IS23 (I23FR)&	 	49.34654&	70.24183&	.08383\\
+I2303&	IS23 (I23FR)&	 	49.3463&	70.2407&	.08477\\
+I2304&	IS23 (I23FR)&	 	49.34286&	70.24868&	.08165\\
+I2305&	IS23 (I23FR)&	 	49.34362&	70.24892&	.08096\\
+I2306&	IS23 (I23FR)&	 	49.34338&	70.24779&	.08037\\
+I2307&	IS23 (I23FR)&	 	49.34816&	70.25637&	.08005\\
+I2308&	IS23 (I23FR)&	 	49.34892&	70.25662&	.07707\\
+I2309&	IS23 (I23FR)&	 	49.34868&	70.25548&	.075921\\
+I2310&	IS23 (I23FR)&	 	49.35158&	70.24454&	.07685\\
+I2311&	IS23 (I23FR)&	 	49.35234&	70.24478&	.07761\\
+I2312&	IS23 (I23FR)&	 	49.3521&	70.24365&	.0774\\
+I2313&	IS23 (I23FR)&	 	49.34536&	70.23599&	.08118\\
+I2314&	IS23 (I23FR)&	 	49.34612&	70.23623&	.08084\\
+I2315&	IS23 (I23FR)&	 	49.34588&	70.2351&	.08067\\
+I24H1&	IS24 (I24FR)&	 	17.74929&	149.29582&	.1168\\
+I24H2&	IS24 (I24FR)&	 	17.73669&	149.29602&	.0748\\
+I24H3&	IS24 (I24FR)&	 	17.74271&	149.27479&	.2285\\
+I24H4&	IS24 (I24FR)&	 	17.7566&	149.28185&	.234\\
+I24H5&	IS24 (I24FR)&	 	17.75685&	149.30837&	.096\\
+I26H1&	IS26 (I26DE)&	 	48.846135&	13.717930&	1.1411\\
+I26H1&	IS26 (I26DE)&	 	48.846135&	13.71793&	1.1411\\
+I26H2&	IS26 (I26DE)&	 	48.851617&	13.713128&	1.1109\\
+I26H2&	IS26 (I26DE)&	 	48.851617&	13.713128&	1.1109\\
+I26H3&	IS26 (I26DE)&	 	48.842358&	13.736813&	1.058\\
+I26H3&	IS26 (I26DE)&	 	48.842358&	13.736813&	1.058\\
+I26H4&	IS26 (I26DE)&	 	48.838572&	13.715775&	1.0845\\
+I26H4&	IS26 (I26DE)&	 	48.838572&	13.715775&	1.0845\\
+I26H5&	IS26 (I26DE)&	 	48.844298&	13.701987&	1.1724\\
+I26H5&	IS26 (I26DE)&	 	48.844298&	13.701987&	1.1724\\
+I26H6&	IS26 (I26DE)&	 	48.847854&	13.710707&	1.0904\\
+I26H7&	IS26 (I26DE)&	 	48.846178&	13.713941&	1.0985\\
+I26H8&	IS26 (I26DE)&	 	48.844365&	13.712018&	1.0736\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I27L1&	IS27 (I27DE)&	 	70.70110&	8.30291&	-.057\\
+I27L1&	IS27 (I27DE)&	 	70.661975&	8.321268&	.0461\\
+I27L2&	IS27 (I27DE)&	 	70.660743&	8.32289&	.0461\\
+I27L2&	IS27 (I27DE)&	 	70.69988&	8.30455&	.07\\
+I27L3&	IS27 (I27DE)&	 	70.70304&	8.30848&	.055\\
+I27L3&	IS27 (I27DE)&	 	70.663945&	8.326791&	.0461\\
+I27L4&	IS27 (I27DE)&	 	70.663311&	8.309784&	.0461\\
+I27L4&	IS27 (I27DE)&	 	70.70245&	8.29145&	.056\\
+I27L5&	IS27 (I27DE)&	 	70.656612&	8.322448&	.0461\\
+I27L5&	IS27 (I27DE)&	 	70.69573&	8.30402&	.052\\
+I27L6&	IS27 (I27DE)&	 	70.70418&	8.32098&	.053\\
+I27L6&	IS27 (I27DE)&	 	70.665099&	8.33923&	.0461\\
+I27L7&	IS27 (I27DE)&	 	70.667025&	8.302284&	.0461\\
+I27L7&	IS27 (I27DE)&	 	70.70616&	8.28400&	.055\\
+I27L8&	IS27 (I27DE)&	 	70.69203&	8.29529&	.055\\
+I27L8&	IS27 (I27DE)&	 	70.652895&	8.313808&	.0461\\
+I27L9&	IS27 (I27DE)&	 	70.70259&	8.33512&	.054\\
+I27L9&	IS27 (I27DE)&	 	70.663525&	8.353385&	.0461\\
+I30H1&	IS30 (I30JP)&	 	35.307756&	140.31376&	.052439\\
+I30H2&	IS30 (I30JP)&	 	35.312867&	140.31802&	.039779\\
+I30H3&	IS30 (I30JP)&	 	35.311456&	140.33&	.039873\\
+I30H4&	IS30 (I30JP)&	 	35.304555&	140.32621&	.046926\\
+I30H5&	IS30 (I30JP)&	 	35.299183&	140.31364&	.038876\\
+I30H6&	IS30 (I30JP)&	 	35.307906&	140.30701&	.040498\\
+I31H1&	IS31 (I31KZ)&	 	50.40858&	58.03435&	.3674\\
+I31H2&	IS31 (I31KZ)&	 	50.40758&	58.03843&	.3678\\
+I31H3&	IS31 (I31KZ)&	 	50.40497&	58.03692&	.3671\\
+I31H4&	IS31 (I31KZ)&	 	50.40604&	58.03345&	.3681\\
+I31L1&	IS31 (I31KZ)&	 	50.40697&	58.03482&	.3694\\
+I31L2&	IS31 (I31KZ)&	 	50.4133&	58.04817&	.3686\\
+I31L3&	IS31 (I31KZ)&	 	50.39691&	58.03778&	.3637\\
+I31L4&	IS31 (I31KZ)&	 	50.41029&	58.01765&	.367\\
+I32H1&	IS32 (I32KE)&	 	1.24216&	36.82721&	1.66163\\
+I32H2&	IS32 (I32KE)&	 	1.23959&	36.83273&	1.65762\\
+I32H3&	IS32 (I32KE)&	 	1.24576&	36.82533&	1.66858\\
+I32H4&	IS32 (I32KE)&	 	1.23564&	36.82488&	1.67005\\
+I32H5&	IS32 (I32KE)&	 	1.24005&	36.82654&	1.66883\\
+I32H6&	IS32 (I32KE)&	 	1.23997&	36.82877&	1.66994\\
+I32H7&	IS32 (I32KE)&	 	1.24192&	36.82958&	1.66136\\
+I33H1&	IS33 (I33MG)&	 	19.010859&	47.305024&	1.384871\\
+I33H1&	IS33 (I33MG)&	 	19.01086&	47.30502&	1.3849\\
+I33H2&	IS33 (I33MG)&	 	19.002141&	47.313615&	1.350819\\
+I33H2&	IS33 (I33MG)&	 	19.00214&	47.3136&	1.3508\\
+I33H3&	IS33 (I33MG)&	 	19.023406&	47.308613&	1.384501\\
+I33H3&	IS33 (I33MG)&	 	19.02341&	47.30861&	1.3845\\
+I33H4&	IS33 (I33MG)&	 	19.00613&	47.29373&	1.3831\\
+I33H4&	IS33 (I33MG)&	 	19.00613&	47.293733&	1.383126\\
+
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I34H1&	IS34 (I34MN)&	 	47.80173&	106.41013&	1.249\\
+I34H1&	IS34 (I34MN)&	 	47.80172&	106.41012&	1.2452\\
+I34H2&	IS34 (I34MN)&	 	47.81612&	106.40575&	1.318\\
+I34H2&	IS34 (I34MN)&	 	47.80307&	106.41185&	1.2507\\
+I34H3&	IS34 (I34MN)&	 	47.79838&	106.43075&	1.268\\
+I34H3&	IS34 (I34MN)&	 	47.79989&	106.41085&	1.2398\\
+I34H4&	IS34 (I34MN)&	 	47.79179&	106.39751&	1.22\\
+I34H4&	IS34 (I34MN)&	 	47.80209&	106.40725&	1.242\\
+I34H5&	IS34 (I34MN)&	 	47.79838&	106.43074&	1.2644\\
+I34H6&	IS34 (I34MN)&	 	47.7942&	106.42847&	1.2559\\
+I34H7&	IS34 (I34MN)&	 	47.79178&	106.3975&	1.2163\\
+I34H8&	IS34 (I34MN)&	 	47.81611&	106.40574&	1.3136\\
+I35H1&	IS35 (I35NA)&	 	19.19135&	17.57678&	1.25253\\
+I35H2&	IS35 (I35NA)&	 	19.18218&	17.57984&	1.25342\\
+I35H3&	IS35 (I35NA)&	 	19.19886&	17.58394&	1.25069\\
+I35H4&	IS35 (I35NA)&	 	19.19382&	17.56517&	1.25389\\
+I35H5&	IS35 (I35NA)&	 	19.19146&	17.57491&	1.24974\\
+I35H6&	IS35 (I35NA)&	 	19.18953&	17.57517&	1.25367\\
+I35H7&	IS35 (I35NA)&	 	19.18968&	17.57695&	1.25484\\I36H1&	IS36 (I36NZ)&	 	43.91662&	176.48337&	.01366\\
+I36H2&	IS36 (I36NZ)&	 	43.915047&	176.48466&	.01997\\
+I36H3&	IS36 (I36NZ)&	 	43.917208&	176.48078&	.00733\\
+I36H4&	IS36 (I36NZ)&	 	43.916469&	176.48618&	.01234\\
+I36L1&	IS36 (I36NZ)&	 	43.910967&	176.48353&	.00573\\
+I36L2&	IS36 (I36NZ)&	 	43.931104&	176.49601&	.02675\\
+I36L3&	IS36 (I36NZ)&	 	43.92082&	176.51611&	.01185\\
+I36L4&	IS36 (I36NZ)&	 	43.908178&	176.50812&	.01614\\
+I37H0&	IS37 (I37NO)&	 	69.07408&	18.60763&	.0737\\
+I37H1&	IS37 (I37NO)&	 	69.07578&	18.60875&	.0734\\
+I37H2&	IS37 (I37NO)&	 	69.07331&	18.61299&	.0741\\
+I37H3&	IS37 (I37NO)&	 	69.07302&	18.60291&	.0725\\
+I37H4&	IS37 (I37NO)&	 	69.07789&	18.62190&	.0781\\
+I37H5&	IS37 (I37NO)&	 	69.08214&	18.61454&	.0731\\
+I37H6&	IS37 (I37NO)&	 	69.07658&	18.63444&	.0798\\
+I37H7&	IS37 (I37NO)&	 	69.06884&	18.61398&	.0619\\
+I37H8&	IS37 (I37NO)&	 	69.07048&	18.58828&	.072\\
+I37H9&	IS37 (I37NO)&	 	69.07709&	18.59219&	.0678\\
+I39H1&	IS39 (I39PW)&	 	7.53547&	134.54704&	.1\\
+I39H2&	IS39 (I39PW)&	 	7.54176&	134.54825&	.14063\\
+I39H3&	IS39 (I39PW)&	 	7.52651&	134.55712&	.08916\\
+I39H4&	IS39 (I39PW)&	 	7.53121&	134.53548&	.13709\\
+I39H5&	IS39 (I39PW)&	 	7.53695&	134.54652&	.09471\\
+I39H6&	IS39 (I39PW)&	 	7.53537&	134.54784&	.10521\\
+I39H7&	IS39 (I39PW)&	 	7.53485&	134.54602&	.08175\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I40H1&	IS40 (I40PG)&	 	4.2991908&	152.0234446&	.091586\\
+I40H2&	IS40 (I40PG)&	 	4.3011045&	152.0246607&	.094138\\
+I40H3&	IS40 (I40PG)&	 	4.302751&	152.024869&	.096376\\
+I40H4&	IS40 (I40PG)&	 	4.3027774&	152.0224765&	.092067\\
+I40H5&	IS40 (I40PG)&	 	4.300767&	152.021847&	.09165\\
+I40H6&	IS40 (I40PG)&	 	4.2916725&	152.027710&	.091834\\
+I40H7&	IS40 (I40PG)&	 	4.3068360&	152.0266405&	.097836\\
+I40H8&	IS40 (I40PG)&	 	4.2989675&	152.0116952&	.084772\\
+I41H1&	IS41 (I41PY)&	 	26.3423&	57.31188&	.16372\\
+I41H2&	IS41 (I41PY)&	 	26.33206&	57.30314&	.15426\\
+I41H3&	IS41 (I41PY)&	 	26.34882&	57.3096&	.22928\\
+I41H4&	IS41 (I41PY)&	 	26.33682&	57.32537&	.18827\\
+I42H1&	IS42 (I42PT)&	 	39.0474&	27.9981&	.1959\\
+I42H2&	IS42 (I42PT)&	 	39.04597&	27.99914&	.2238\\
+I42H3&	IS42 (I42PT)&	 	39.04728&	28.00035&	.2109\\
+I42H4&	IS42 (I42PT)&	 	39.05061&	27.99879&	.1815\\
+I42H5&	IS42 (I42PT)&	 	39.05035&	27.98595&	.1326\\
+I42H6&	IS42 (I42PT)&	 	39.04405&	27.98824&	.1676\\
+I42H7&	IS42 (I42PT)&	 	39.04043&	27.99695&	.2147\\
+I42H8&	IS42 (I42PT)&	 	39.04233&	28.00554&	.2844\\
+I43H1&	IS43 (I43RU)&	 	56.72136&	37.21759&	.12\\
+I43H2&	IS43 (I43RU)&	 	56.72660&	37.22496&	.12\\
+I43H3&	IS43 (I43RU)&	 	56.71461&	37.21930&	.12\\
+I43H4&	IS43 (I43RU)&	 	56.72374&	37.20246&	.12\\
+I43H5&	IS43 (I43RU)&	 	56.72369&	37.20011&	.12\\
+I43H6&	IS43 (I43RU)&	 	56.72279&	37.20195&	.12\\
+I44H1&	IS44 (I44RU)&	 	53.1058&	157.7139&	.38\\
+I44H2&	IS44 (I44RU)&	 	53.1146&	157.7208&	.38\\
+I44H3&	IS44 (I44RU)&	 	53.0998&	157.7237&	.4\\
+I44H4&	IS44 (I44RU)&	 	53.1074&	157.6982&	.4\\
+I45H1&	IS45 (I45RU)&	 	44.1999&	131.9773&	.15\\
+I45H2&	IS45 (I45RU)&	 	44.2108&	131.9706&	.16\\
+I45H3&	IS45 (I45RU)&	 	44.1994&	131.9892&	.17\\
+I45H4&	IS45 (I45RU)&	 	44.1913&	131.9723&	.14\\
+I46H1&	IS46 (I46RU)&	 	53.94872&	84.81891&	.232\\
+I46H2&	IS46 (I46RU)&	 	53.96105&	84.8164&	.228\\
+I46H3&	IS46 (I46RU)&	 	53.94285&	84.8412&	.2457\\
+I46H4&	IS46 (I46RU)&	 	53.93748&	84.79958&	.1993\\
+I47L1&	IS47 (I47ZA)&	 	28.621123&	25.235228&	1.30568\\
+I47L2&	IS47 (I47ZA)&	 	28.622731&	25.234921&	1.307783\\
+I47L3&	IS47 (I47ZA)&	 	28.621702&	25.233507&	1.307665\\
+I47L4&	IS47 (I47ZA)&	 	28.615143&	25.238688&	1.312944\\
+I47L5&	IS47 (I47ZA)&	 	28.621703&	25.243419&	1.312235\\
+I47L6&	IS47 (I47ZA)&	 	28.629747&	25.237351&	1.299077\\
+I47L7&	IS47 (I47ZA)&	 	28.625532&	25.226638&	1.302632\\
+I47L8&	IS47 (I47ZA)&	 	28.617145&	25.227847&	1.308981\\
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+I48L1&	IS48 (I48TN)&	 	35.80523&	9.32302&	.8482\\
+I48L2&	IS48 (I48TN)&	 	35.80365&	9.32356&	.8458\\
+I48L3&	IS48 (I48TN)&	 	35.80235&	9.32154&	.84112\\
+I48L4&	IS48 (I48TN)&	 	35.80381&	9.32106&	.84325\\
+I48L5&	IS48 (I48TN)&	 	35.81332&	9.32457&	.87075\\
+I48L6&	IS48 (I48TN)&	 	35.79706&	9.32904&	.8311\\
+I48L7&	IS48 (I48TN)&	 	35.804&	9.31155&	.86558\\
+I49H1&	IS49 (I49GB)&	 	37.08995&	12.33192&	.0806\\
+I49H2&	IS49 (I49GB)&	 	37.08427&	12.32839&	.0902\\
+I49H3&	IS49 (I49GB)&	 	37.08743&	12.31984&	.16404\\
+I49H4&	IS49 (I49GB)&	 	37.09708&	12.33363&	.11379\\
+I49H5&	IS49 (I49GB)&	 	37.09608&	12.34144&	.05418\\
+I50H1&	IS50 (I50GB)&	 	7.93678&	14.3753&	.18412\\
+I50H2&	IS50 (I50GB)&	 	7.93888&	14.37406&	.19808\\
+I50H3&	IS50 (I50GB)&	 	7.93956&	14.37662&	.17986\\
+I50H4&	IS50 (I50GB)&	 	7.93712&	14.37705&	.1746\\
+I50L1&	IS50 (I50GB)&	 	7.93774&	14.37517&	.18862\\
+I50L2&	IS50 (I50GB)&	 	7.9319&	14.38204&	.14727\\
+I50L3&	IS50 (I50GB)&	 	7.9325&	14.35721&	.21797\\
+I50L4&	IS50 (I50GB)&	 	7.95113&	14.37409&	.1923\\
+I51H1&	IS51 (I51GB)&	 	32.36154&	64.69874&	-.0346\\
+I51H2&	IS51 (I51GB)&	 	32.35408&	64.68610&	-.03331\\
+I51H3&	IS51 (I51GB)&	 	32.34124&	64.70222&	-.0268\\
+I51H4&	IS51 (I51GB)&	 	32.34957&	64.71103&	-.0126\\
+I52H1&	IS52 (I52GB)&	 	7.37781&	72.484161&	.001\\
+I52H2&	IS52 (I52GB)&	 	7.37058&	72.482361&	.001\\
+I52H3&	IS52 (I52GB)&	 	7.37962&	72.490784&	.001\\
+I52H4&	IS52 (I52GB)&	 	7.3871&	72.478127&	.001\\
+I52H5&	IS52 (I52GB)&	 	7.37575&	72.48398&	.001\\
+I52H6&	IS52 (I52GB)&	 	7.37593&	72.485573&	.001\\
+I52H7&	IS52 (I52GB)&	 	7.37865&	72.48563&	.001\\
+I53H1&	IS53 (I53US)&	 	64.875&	147.86114&	.20027\\
+I53H2&	IS53 (I53US)&	 	64.87236&	147.83828&	.17414\\
+I53H3&	IS53 (I53US)&	 	64.86208&	147.84281&	.18639\\
+I53H4&	IS53 (I53US)&	 	64.85914&	147.86615&	.17794\\
+I53H5&	IS53 (I53US)&	 	64.86805&	147.87858&	.1661\\
+I53H6&	IS53 (I53US)&	 	64.86722&	147.8612&	.1637\\
+I53H7&	IS53 (I53US)&	 	64.866166&	147.85673&	.16592\\
+I53H8&	IS53 (I53US)&	 	64.86541&	147.8599&	.16606\\
+
+
+
+\hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Code&	Station&	Latitude (degree)&	Longitude (degree)&	Elevation (km)\\
+\hline
+
+I55H1&	IS55 (I55US)&	 	77.71607&	167.6514&	.04534\\
+I55H1&	IS55 (I55US)&	 	77.73149&	167.58742&	.04181\\
+I55H2&	IS55 (I55US)&	 	77.72922&	167.67648&	.03928\\
+I55H2&	IS55 (I55US)&	 	77.73754&	167.62806&	.04065\\
+I55H3&	IS55 (I55US)&	 	77.74129&	167.63532&	.03932\\
+I55H3&	IS55 (I55US)&	 	77.74765&	167.61236&	.03882\\
+I55H4&	IS55 (I55US)&	 	77.73239&	167.58495&	.04208\\
+I55H4&	IS55 (I55US)&	 	77.74784&	167.56419&	.04002\\
+I55H5&	IS55 (I55US)&	 	77.71984&	167.57471&	.04282\\
+I55H5&	IS55 (I55US)&	 	77.73767&	167.54731&	.04102\\
+I55H6&	IS55 (I55US)&	 	77.73952&	167.58786&	.04094\\
+I55H6&	IS55 (I55US)&	 	77.72607&	167.60560&	.04332\\
+I55H7&	IS55 (I55US)&	 	77.74089&	167.59176&	.04075\\
+I55H7&	IS55 (I55US)&	 	77.72964&	167.60525&	.04221\\
+I55H8&	IS55 (I55US)&	 	77.74092&	167.58419&	.04107\\
+I55H8&	IS55 (I55US)&	 	77.72797&	167.59153&	.0425\\
+I55H9&	IS55 (I55US)&	 	77.74&	167.59&	.04119\\
+I56H1&	IS56 (I56US)&	 	48.26408&	117.12567&	.76279\\
+I56H2&	IS56 (I56US)&	 	48.27274&	117.1343&	.76143\\
+I56H3&	IS56 (I56US)&	 	48.26888&	117.10939&	.85109\\
+I56H4&	IS56 (I56US)&	 	48.25487&	117.13106&	.75535\\
+I57H1&	IS57 (I57US)&	 	33.606439&	116.45502&	1.24275\\
+I57H2&	IS57 (I57US)&	 	33.606795&	116.45342&	1.249999\\
+I57H3&	IS57 (I57US)&	 	33.605533&	116.45223&	1.25581\\
+I57H4&	IS57 (I57US)&	 	33.605481&	116.4546&	1.24375\\
+I57L1&	IS57 (I57US)&	 	33.605852&	116.45328&	1.250619\\
+I57L2&	IS57 (I57US)&	 	33.611241&	116.4575&	1.252573\\
+I57L3&	IS57 (I57US)&	 	33.604989&	116.44558&	1.287565\\
+I57L4&	IS57 (I57US)&	 	33.598836&	116.45939&	1.21568\\
+I58H1&	IS58 (I58US)&	 	28.209718&	177.381427&	.004608\\
+I58H2&	IS58 (I58US)&	 	28.213261&	177.369584&	.006769\\
+I58H3&	IS58 (I58US)&	 	28.212899&	177.385431&	.004305\\
+I58H4&	IS58 (I58US)&	 	28.202870&	177.384401&	.008967\\
+I59H1&	IS59 (I59US)&	 	19.591532&	155.8936&	1.0335\\
+I59H2&	IS59 (I59US)&	 	19.600961&	155.89527&	1.0409\\
+I59H3&	IS59 (I59US)&	 	19.59106&	155.88175&	1.1301\\
+I59H4&	IS59 (I59US)&	 	19.585536&	155.8988&	.962\\
+\hline
+\end{tabular}
+\end{center}
+\end{document}
+
+
+
+
+
+
+
+
