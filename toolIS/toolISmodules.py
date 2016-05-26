@@ -27,7 +27,6 @@ from scipy.stats import norm
 from numpy.linalg  import norm as norm2
 
 
-from time import sleep
 from matplotlib import pyplot as plt
 
 #==========================================================================
@@ -2495,7 +2494,6 @@ def stationcharacteristics(z):
     diffsort_o = diff(osort)
     dispersionratio_o = std(diffsort_o)/mean(diffsort_o)
 
-
     alpha_o = dot(HtHm1Ht,osort)
     residu_o = osort-dot(regresscombi.transpose(),alpha_o) 
     SSE_o = dot(residu_o,residu_o)
@@ -2518,7 +2516,7 @@ def stationcharacteristics(z):
     for ic in range(combi):
         if not(histonorm[ic]==0):
             Hentropy_o = Hentropy_o-histonorm[ic]*log2(histonorm[ic]);
-
     
     return RR, areaCov, R2_d, R2_o, dmin, dmax, distance, \
-          orient, Hentropy_d, Hentropy_o, dispersionratio_d, dispersionratio_o
+          orient, Hentropy_d, Hentropy_o, dispersionratio_d, \
+          dispersionratio_o
